@@ -1,55 +1,82 @@
-import React from 'react'
+import React, { useState} from 'react'
+import PropTypes from 'prop-types';
 
-export default function Login() {
+// import { getToken, setToken } from "../components/Authenticator";
 
+async function loginUser(credentials) {
+  return fetch('http://localhost:3001/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+ }
+
+ async function registerUser(credentials) {
+  return fetch('http://localhost:3001/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+  }
+
+
+export default function Login({ setToken }) {
   // 0 = login, 1 = register, 2 = forgot password
-  const [login_option, setLoginOption] = React.useState(0)
+  const [login_option, setLoginOption] = useState(0)
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    const email = e.target.email.value
-    const password = e.target.password.value
-    console.log(email, password)
-  }
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
-  function handleRegister(e) {
-    e.preventDefault()
-    setLoginOption(1)
-  }
-
-  function handleResetPassword(e) {
-    e.preventDefault()
-    setLoginOption(2)
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const token = await loginUser({
+      email,
+      password
+    });
+    console.log("token: ", token);
+    setToken(token);
   }
 
   const login_form = (
     <div>
-      <form action="" method="post">
+      <form action="" method="post" onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
-        <input type="email" name="email" id="email" />
+        <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
         <label htmlFor="password">Password:</label>
-        <input type="password" name="password" id="password" />
+        <input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} />
         <input type="submit" value="Login" />
       </form>
-      <button onClick={handleRegister}>Register</button>
-      <button onClick={handleResetPassword}>Reset Password</button>
+      <button onClick={e => setLoginOption(1)}>Registrieren</button>
+      <button onClick={e => setLoginOption(2)}>Reset Password</button>
     </div>
   );
   const register_form = (
+    <div>
     <form action="" method="post">
       <label htmlFor="email">Email:</label>
-      <input type="email" name="email" id="email" />
+      <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
       <label htmlFor="password">Password:</label>
-      <input type="password" name="password" id="password" />
+      <input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} />
       <input type="submit" value="Register" />
     </form>
+    <button onClick={e => setLoginOption(0)}>zurück zum Login</button>
+    </div>
   );
   const reset_password_form = (
-    <form action="" method="post">
+    <div>
+          <form action="" method="post">
       <label htmlFor="email">Email:</label>
-      <input type="email" name="email" id="email" />
+      <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
       <input type="submit" value="Reset Password" />
     </form>
+    <button onClick={e => setLoginOption(0)}>zurück zum Login</button>
+    </div>
   );
 
   const login_option_form = [login_form, register_form, reset_password_form]
@@ -60,4 +87,8 @@ export default function Login() {
       {login_option_form[login_option]}
     </div>
   )
+}
+
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired
 }
