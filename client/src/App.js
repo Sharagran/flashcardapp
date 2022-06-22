@@ -7,20 +7,11 @@ import Dashboard from './pages/Dashboard';
 import Files from './pages/Files';
 import Login from './pages/Login';
 
-import useToken from './useToken';
+import useToken from './components/useToken';
 
-function setToken(userToken) {
-  sessionStorage.setItem('token', JSON.stringify(userToken));
-}
-
-function getToken() {
-  const tokenString = sessionStorage.getItem('token');
-  const userToken = JSON.parse(tokenString);
-  return userToken?.token
-}
 
 function App() {
-  const token = getToken();
+  const { token, setToken } = useToken();
 
   console.log(window.location.pathname);
 
@@ -29,6 +20,7 @@ function App() {
     return <Files />;
   }
 
+  // TODO: token verifizieren
   if(!token) {
     return <Login setToken={setToken} />;
   }
