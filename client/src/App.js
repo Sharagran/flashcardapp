@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
 
 import Account from './pages/Account';
 import Dashboard from './pages/Dashboard';
@@ -16,25 +16,28 @@ function App() {
   console.log(window.location.pathname);
 
   // Seite ohne Authentifizierung
-  if(window.location.pathname === '/files') {
+  if (window.location.pathname === '/files') {
     return <Files />;
   }
 
   // TODO: token verifizieren
-  if(!token) {
+  if (token) {
+    axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` };
+  } else {
     return <Login setToken={setToken} />;
   }
 
+
   return (
     <div>
-    <h1>Flashcard app</h1>
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Dashboard />}></Route>
-        {/* <Route path="/files" element={<Files />}></Route> */}
-        <Route path="/account" element={<Account />}></Route>
-      </Routes>
-    </BrowserRouter>
+      <h1>Flashcard app</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Dashboard />}></Route>
+          {/* <Route path="/files" element={<Files />}></Route> */}
+          <Route path="/account" element={<Account />}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
