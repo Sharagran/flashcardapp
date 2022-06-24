@@ -1,6 +1,9 @@
 import React from 'react'
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import FlashcardViewer from '../components/FlashcardViewer';
+
+
 
 export default function Dashboard() {
   function test() {
@@ -11,6 +14,7 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
+      <FlashcardViewer />
       <button onClick={test}>Test</button>
     </div>
   )
