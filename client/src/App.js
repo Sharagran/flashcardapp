@@ -12,62 +12,35 @@ import useToken from './components/useToken';
 
 function App() {
   const { token, setToken } = useToken();
-  var renderOptionValue = 2;
+
+
+  var content = <BrowserRouter>
+  <Routes>
+    <Route exact path="/" element={<Dashboard />}></Route>
+    {/* <Route path="/files" element={<Files />}></Route> */}
+    <Route path="/account" element={<Account />}></Route>
+    </Routes>
+</BrowserRouter>;
 
   console.log(window.location.pathname);
 
   // Seite ohne Authentifizierung
   if (window.location.pathname === '/files') {
-    renderOptionValue = 1;
+    content = <Files />;
   }
 
   // TODO: token verifizieren
   if (token) {
     axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` };
   } else {
-    renderOptionValue = 0;
+    content = <Login setToken={setToken} />;
   }
-
-  const login_page = (<Login setToken={setToken} />);
-  const file_page = (<Files />);
-  const app_router = (<BrowserRouter>
-    <Routes>
-      <Route exact path="/" element={<Dashboard />}></Route>
-      {/* <Route path="/files" element={<Files />}></Route> */}
-      <Route path="/account" element={<Account />}></Route>
-      </Routes>
-  </BrowserRouter>);
-
-const render_option = [login_page, file_page, app_router]
-
-return (
-  <div>
-    <Toaster position="top-right" />
-    <h1>Flashcard app</h1>
-    {render_option[renderOptionValue]}
-  </div>
-)
-
-
 
   return (
     <div>
       <Toaster position="top-right" />
       <h1>Flashcard app</h1>
-      {
-        window.location.pathname === '/files' ?
-          <Files /> :
-        !token ?
-          <Login setToken={setToken} /> :
-        (axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` },
-          <BrowserRouter>
-            <Routes>
-              <Route exact path="/" element={<Dashboard />}></Route>
-              {/* <Route path="/files" element={<Files />}></Route> */}
-              <Route path="/account" element={<Account />}></Route>
-              </Routes>
-          </BrowserRouter>)
-      }
+      {content}
     </div>
   );
 }
