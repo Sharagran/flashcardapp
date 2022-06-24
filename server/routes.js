@@ -1,8 +1,11 @@
 const router = require('express').Router();
 const authenticator = require('./Authenticator');
+const database = require('./Database');
+
+//database.connect(); //FIXME:
 
 router.get('/', (req, res) => {
-    res.send('Hello World');
+  res.send('Hello World');
 });
 
 router.post('/login', (req, res) => {
@@ -12,10 +15,10 @@ router.post('/login', (req, res) => {
   authenticator.login(email, password);
   //TODO: save token in database
 
-    res.send({
-      token: token
-    });
+  res.send({
+    token: token
   });
+});
 
 router.post('/register', (req, res) => {
   const { email, password } = req.body;
