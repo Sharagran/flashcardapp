@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
+
 
 async function loginUser(credentials) {
   return fetch('http://localhost:3001/login', {
@@ -40,6 +42,7 @@ export default function Login({ setToken }) {
       });
       console.log("token: ", token);
       setToken(token);
+      toast.success("Erfolgreich eingeloggt!");
     } else if (login_option === 1) {
       const token = await registerUser({
         email,
@@ -47,8 +50,10 @@ export default function Login({ setToken }) {
       });
       console.log("token: ", token);
       setToken(token);
+      toast.success("Erfolgreich registriert!");
+    } else if (login_option === 2) {
+      toast.error("Diese Funktion ist noch nicht implementiert!");
     }
-
   }
 
   const login_form = (
@@ -66,7 +71,7 @@ export default function Login({ setToken }) {
   );
   const register_form = (
     <div>
-      <form action="" method="post">
+      <form action="" method="post" onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
         <label htmlFor="password">Password:</label>
@@ -78,7 +83,7 @@ export default function Login({ setToken }) {
   );
   const reset_password_form = (
     <div>
-      <form action="" method="post">
+      <form action="" method="post" onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
         <input type="submit" value="Reset Password" />

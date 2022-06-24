@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 import Account from './pages/Account';
 import Dashboard from './pages/Dashboard';
@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div>
-      <Toaster position="top-right" />
+      <Toaster position="bottom-right" />
       <h1>Flashcard app</h1>
       {content}
     </div>
