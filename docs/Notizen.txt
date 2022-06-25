@@ -1,0 +1,8 @@
+Karteikarten app
+
+Upload von dateien einfach so (unabhängig von Karteikarten)
+
+Karteikarten in ordner organisieren
+Teilen von Karteikarten (nicht Dateien)
+Download: Download von Karteikarten (als HTML datei in der nur der code zum anzeigen der Karteikarte ist)
+Download nur von Karteikarten (nicht von Dateien)
