@@ -7,7 +7,8 @@ export default function FlashcardList({ flashcard_array }) {
             {
                 flashcard_array.map(element => {
                     return <Flashcard rubrik={element.rubrik} begriff={element.begriff}
-                        erklärung={element.erklärung} lernStatus={element.lernStatus} />
+                        erklärung={element.erklärung} lernStatus={element.lernStatus}
+                        key="UNIQUE" /> //TODO: key ist nicht eindeutig
                 })
             }
         </div>
