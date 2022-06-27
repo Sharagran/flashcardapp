@@ -7,6 +7,7 @@ import Account from './pages/Account';
 import Dashboard from './pages/Dashboard';
 import Files from './pages/Files';
 import Login from './pages/Login';
+import Learn from './pages/Learn';
 
 import useToken from './components/useToken';
 
@@ -17,6 +18,7 @@ function App() {
   var content = <BrowserRouter>
   <Routes>
     <Route exact path="/" element={<Dashboard />}></Route>
+    <Route path="/learn" element={<Learn />}></Route>
     {/* <Route path="/files" element={<Files />}></Route> */}
     <Route path="/account" element={<Account />}></Route>
     </Routes>
@@ -37,7 +39,9 @@ function App() {
   }
 
   return (
-    <div>
+    <div style={{
+      padding: "16px",
+    }}>
       <Toaster position="bottom-right" />
       <h1>Flashcard app</h1>
       {content}

@@ -3,9 +3,6 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { PieChart } from 'react-minimal-pie-chart';
 
-import FlashcardViewer from '../components/FlashcardViewer';
-import FlashcardList from '../components/FlashcardList';
-
 // TODO: pie chart: https://www.npmjs.com/package/react-minimal-pie-chart oder https://canvasjs.com/react-charts/pie-chart/
 
 export default function Dashboard() {
@@ -17,16 +14,7 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
-      <FlashcardList flashcard_array={[
-        {
-          rubrik: 'Test',
-          begriff: 'Testbegriff',
-          erklärung: 'Testerklärung',
-          lernStatus: 'lernen',
-          keyword_array: ['test', 'test2'],
-          kommentar_array: ['test', 'test2']
-        }
-      ]}/>
+      
       <div style={{
         height: "300px"
       }}>
