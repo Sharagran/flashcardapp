@@ -37,7 +37,6 @@ function authenticate(req, res, next) {
             }
 
             req.account = decoded;
-            console.log(decoded);
             next();
         }
         );

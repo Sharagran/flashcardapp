@@ -16,6 +16,12 @@ const excluded_urls = [
     '/login' // nur login da das jede anfrage ist die der server bekommt (und files?)
 ];
 
+//FIXME: dbug only
+app.use((req, res, next) => {
+    // log request
+    console.log(`${req.method} ${req.originalUrl}`);
+    next();
+});
 app.use(verifier(excluded_urls));
 app.use(routes);
 
