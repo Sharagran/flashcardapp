@@ -4,25 +4,35 @@ import toast from 'react-hot-toast';
 
 
 async function loginUser(credentials) {
-  return fetch('http://localhost:3001/login', {
+  const result = await fetch('http://localhost:3001/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(credentials)
-  })
-    .then(data => data.json())
+  }).then(data => data.json());
+
+  if (result.error) {
+    throw new Error(result.error);
+  } else {
+    return result;
+  }
 }
 
 async function registerUser(credentials) {
-  return fetch('http://localhost:3001/register', {
+  const result = await fetch('http://localhost:3001/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(credentials)
-  })
-    .then(data => data.json())
+  }).then(data => data.json());
+
+  if (result.error) {
+    throw new Error(result.error);
+  } else {
+    return result;
+  }
 }
 
 
@@ -35,23 +45,48 @@ export default function Login({ setToken }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     if (login_option === 0) {
-      const token = await loginUser({
+      const promise = loginUser({
         email,
         password
       });
-      console.log("token: ", token);
-      setToken(token);
-      toast.success("Erfolgreich eingeloggt!");
+
+      toast.promise(promise, {
+        loading: 'Logging in...',
+        success: (data) => {
+          setToken({
+            token: data.token
+          });
+          return 'Erfolgreich eingeloggt!';
+        },
+        error: (error) => {
+          return error.message;
+        },
+      });
+
     } else if (login_option === 1) {
-      const token = await registerUser({
+      // Register
+      const promise = registerUser({
         email,
         password
       });
-      console.log("token: ", token);
-      setToken(token);
-      toast.success("Erfolgreich registriert!");
+
+      toast.promise(promise, {
+        loading: 'Registrieren...',
+        success: (data) => {
+          setToken({
+            token: data.token
+          });
+          return 'Erfolgreich registriert!';
+        },
+        error: (error) => {
+          return error.message;
+        }
+      });
     } else if (login_option === 2) {
+      // Forgot password
+      // TODO: Implement forgot password
       toast.error("Diese Funktion ist noch nicht implementiert!");
     }
   }

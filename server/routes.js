@@ -50,8 +50,11 @@ router.post('/register', async (req, res) => {
   const { email, username, password } = req.body;
 
   try {
-    const insertionResult = await authenticator.register(email, username, password);
-    res.json(insertionResult);
+    await authenticator.register(email, username, password);
+    const token = await authenticator.login(email, password);
+    res.json({
+      token: token
+    });
   } catch (error) {
     res.status(401).json({
       error: error.message
