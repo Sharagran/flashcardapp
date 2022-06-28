@@ -10,10 +10,10 @@ import Login from './pages/Login';
 import Learn from './pages/Learn';
 
 import useToken from './components/useToken';
+import Navbar from './components/Navbar';
 
 function App() {
   const { token, setToken } = useToken();
-
 
   var content = <BrowserRouter>
   <Routes>
@@ -39,10 +39,9 @@ function App() {
   }
 
   return (
-    <div style={{
-      padding: "16px",
-    }}>
+    <div>
       <Toaster position="bottom-right" />
+      <Navbar />
       <h1>Flashcard app</h1>
       {content}
     </div>
