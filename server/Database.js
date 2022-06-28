@@ -32,6 +32,18 @@ async function getAccount(query) {
     return db.collection('accounts').findOne(matchQuery);
 }
 
+async function updateAccount(id, email, username, avatar) {
+    return db.collection('accounts').updateOne({
+        id: id
+    }, {
+        $set: {
+            email: email,
+            username: username,
+            avatar: avatar
+        }
+    });
+}
+
 // Überprüft, ob eines der query-ausdrucke zutrifft
 // Wandelt AND query in OR query um
 function matchAny(query) {
@@ -51,5 +63,6 @@ function matchAny(query) {
 module.exports = {
     connect,
     addAccount,
-    getAccount
+    getAccount,
+    updateAccount
 }

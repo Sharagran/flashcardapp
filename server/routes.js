@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const authenticator = require('./Authenticator');
+const accountManager = require('./AccountManager');
 
 router.get('/1', async (req, res) => {
   try {
@@ -31,6 +32,7 @@ router.get('/3', async (req, res) => {
 });
 
 
+//TODO: fix error codes
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -61,5 +63,31 @@ router.post('/register', async (req, res) => {
     });
   }
 });
+
+router.route('/accountData')
+  .get( async (req, res) => {
+    const account = await accountManager.getAccount(req.account.id);
+    res.json({
+      email: account.email,
+      username: account.username,
+      avatar: account.avatar
+    });
+  })
+  .post(async (req, res) => {
+    const { email, username, avatar } = req.body;
+    try {
+      await accountManager.updateAccount(req.account.id, email, username, avatar);
+      res.json({
+        message: "Account updated"
+      });
+    }
+    catch (error) {
+      console.log(error);
+      res.status(401).json({
+        error: error.message
+      });
+    }
+  }
+);
 
 module.exports = router;

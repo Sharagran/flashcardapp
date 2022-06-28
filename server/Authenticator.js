@@ -32,9 +32,9 @@ function compare_hash(password, hashFromDB) {
     });
 }
 
-function sign(id, email, username) {
+function sign(id) {
     try {
-        const payload = { id: id, email: email, username: username };
+        const payload = { id: id };
         const token = jwt.sign(payload, SECRET); //TODO: expiresIn (implement 30min login timeout)
         return token;
     } catch (error) {
@@ -61,7 +61,7 @@ async function login(email, password) {
         console.log('Invalid password for account with email: ' + email);
         throw new Error('Invalid password for account with email: ' + email);
     }
-    const token = sign(account.id, account.email, account.username);
+    const token = sign(account.id);
     return token;
 }
 
