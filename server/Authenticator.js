@@ -38,8 +38,8 @@ function sign(id, email, username) {
         const token = jwt.sign(payload, SECRET); //TODO: expiresIn (implement 30min login timeout)
         return token;
     } catch (error) {
-        console.error(error.stack);
-        return;
+        console.log(error);
+        throw new Error('Error signing token');
     }
 }
 
