@@ -41,12 +41,14 @@ export default function Login({ setToken }) {
   const [login_option, setLoginOption] = useState(0)
 
   const [email, setEmail] = useState();
+  const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     if (login_option === 0) {
+      // Login
       const promise = loginUser({
         email,
         password
@@ -69,6 +71,7 @@ export default function Login({ setToken }) {
       // Register
       const promise = registerUser({
         email,
+        username,
         password
       });
 
@@ -109,6 +112,8 @@ export default function Login({ setToken }) {
       <form action="" method="post" onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
+        <label htmlFor="username">Username:</label>
+        <input type="text" name="username" id="username" onChange={e => setUsername(e.target.value)} />
         <label htmlFor="password">Password:</label>
         <input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} />
         <input type="submit" value="Register" />
