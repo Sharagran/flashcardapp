@@ -1,10 +1,11 @@
 import React from 'react'
 
 import FlashcardViewer from '../components/FlashcardViewer';
+import '../styles/Learn.css';
 
 export default function Learn() {
   return (
-    <div>
+    <div className='center'>
         <FlashcardViewer flashcard={
         {
           rubrik: 'TestRubrik',

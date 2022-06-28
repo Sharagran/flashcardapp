@@ -3,7 +3,7 @@ import Flashcard from './Flashcard'
 
 export default function FlashcardViewer({flashcard}) {
   return (
-    <div>
+    <div className='center'>
       <h2>Flashcard viewer</h2>
       <Flashcard rubrik={flashcard.rubrik} begriff={flashcard.begriff}
           erklärung={flashcard.erklärung} lernStatus={flashcard.lernStatus}/>

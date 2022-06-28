@@ -1,4 +1,4 @@
- /* https://jefferson-cuartas.medium.com/how-to-create-a-flip-card-effect-using-javascript-767dd945210c */
+ /* https://www.w3schools.com/howto/howto_css_flip_card.asp */
 
  .flashcard {
      width: 320px;
@@ -15,8 +15,6 @@
 
      transition: transform 0.6s;
      transform-style: preserve-3d;
-
-     /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
  }
 
  .vorderseite,
@@ -28,12 +26,11 @@
      backface-visibility: hidden;
 
      text-align: center;
-     
-     /* box-shadow card effect */
-     border: 8px solid black;
-     border-radius: 25%;
-    /* box-shadow: 0 4px 8px 0 #000000; */
 
+
+     /* box-shadow card effect */
+     border: 6px solid black;
+     /* box-shadow: 0 4px 8px 0 #000000; */
  }
 
  .rückseite {
@@ -41,7 +38,7 @@
  }
 
  .flipped {
-     transform: rotateY(180deg);
+     transform: rotateY(-180deg);
  }
 
  /* Text zentrieren */
@@ -56,3 +53,4 @@
 
      overflow-wrap: break-word;
  }
+
