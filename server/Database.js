@@ -13,17 +13,9 @@ let db;
 async function connect() {
     // Use connect method to connect to the server
     await client.connect();
-    console.log('Connected successfully to server');
+    console.log('Connected successfully to Database');
     db = client.db(dbName);
 }
-
-// Account: {
-//     id: String,
-//     email: String,
-//     username: String
-//     password: String,
-//     avatar: String (optional)
-// }
 
 async function addAccount(id, email, username, password) {
     return db.collection('accounts').insertOne({
@@ -35,23 +27,29 @@ async function addAccount(id, email, username, password) {
     });
 }
 
-async function getAccountById(id) {
-    return db.collection('accounts').findOne({
-        id: id
-    });
+async function getAccount(query) {
+    const matchQuery = matchAny(query);
+    return db.collection('accounts').findOne(matchQuery);
 }
 
-async function getAccountByEmail(email) {
-    return db.collection('accounts').findOne({
-        email: email
+// Überprüft, ob eines der query-ausdrucke zutrifft
+// Wandelt AND query in OR query um
+function matchAny(query) {
+    const keys = Object.keys(query);
+    const values = Object.values(query);
+    const $or = keys.map((key, index) => {
+        return {
+            [key]: values[index]
+        };
     });
+    return {
+        $or
+    };
 }
-
 
 
 module.exports = {
     connect,
     addAccount,
-    getAccountById,
-    getAccountByEmail
+    getAccount
 }

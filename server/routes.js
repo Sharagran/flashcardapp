@@ -1,9 +1,21 @@
 const router = require('express').Router();
 const authenticator = require('./Authenticator');
 
-router.get('/', (req, res) => {
-  // working 28.06.2022
-  // database.addAccount("filipmaas@gmail.com", "Sharagran", "123456");
+router.get('/1', async (req, res) => {
+  const x = await authenticator.register("filipmas@gmail.com", "Sharagra", "123456");
+  res.json(x);
+});
+
+router.get('/2', async (req, res) => {
+  const token = await authenticator.login("filipmas@gmail.com", "123456");
+  authenticator.verify(token, (err, decoded) => {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(decoded);
+    }
+  }
+  );
 });
 
 router.post('/login', (req, res) => {
