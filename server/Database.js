@@ -1,38 +1,47 @@
 const { MongoClient } = require('mongodb');
 
+
 // Connection URL
 const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
 // Database Name
-const dbName = 'myProject';
+const dbName = 'flashcardapp';
 
 
 let db;
 
 async function connect() {
     // Use connect method to connect to the server
-    await client.connect(); //FIXME: dat geht nicht, kp wieso
+    await client.connect();
     console.log('Connected successfully to server');
     db = client.db(dbName);
 }
 
 // Account: {
+//     id: String,
 //     email: String,
-//     password: String,
-//     token: String
 //     username: String
+//     password: String,
 //     avatar: String (optional)
 // }
 
-async function addAccount(email, password) {
-    //TODO: add id to account
+async function addAccount(id, email, username, password) {
     return db.collection('accounts').insertOne({
+        id: id,
         email: email,
-        password: password
+        username: username,
+        password: password,
+        avatar: null
     });
 }
 
-async function getAccount(email) {
+async function getAccountById(id) {
+    return db.collection('accounts').findOne({
+        id: id
+    });
+}
+
+async function getAccountByEmail(email) {
     return db.collection('accounts').findOne({
         email: email
     });
@@ -42,5 +51,7 @@ async function getAccount(email) {
 
 module.exports = {
     connect,
-    addAccount
+    addAccount,
+    getAccountById,
+    getAccountByEmail
 }
