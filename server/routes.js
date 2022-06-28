@@ -2,8 +2,16 @@ const router = require('express').Router();
 const authenticator = require('./Authenticator');
 
 router.get('/1', async (req, res) => {
-  const x = await authenticator.register("filipmas@gmail.com", "Sharagra", "123456");
-  res.json(x);
+  try {
+    const insertionResult = await authenticator.register("filipmas@gmail.com", "Sharagra", "123456");
+    res.json(insertionResult);
+  } catch (error) {
+    res.status(401).json({
+      error: error.message
+    });
+  }
+  
+  
 });
 
 router.get('/2', async (req, res) => {
@@ -18,29 +26,37 @@ router.get('/2', async (req, res) => {
   );
 });
 
-router.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  const token = authenticator.login(email, password);
-
-  res.send({
-    token: token
-  });
+router.get('/3', async (req, res) => {
+  res.json(req.account);
 });
 
-router.post('/register', (req, res) => {
+
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  const token = authenticator.sign(email, password);
 
-  authenticator.register(email, password);
-
-  // Remove this
-  res.send({
-    token: token
-  });
+  try {
+    const token = await authenticator.login(email, password);
+    res.json({
+      token: token
+    });
+  } catch (error) {
+    res.status(401).json({
+      error: error.message
+    });
+  }
 });
 
-router.get('/test', (req, res) => {
-  res.send('test');
+router.post('/register', async (req, res) => {
+  const { email, username, password } = req.body;
+
+  try {
+    const insertionResult = await authenticator.register(email, username, password);
+    res.json(insertionResult);
+  } catch (error) {
+    res.status(401).json({
+      error: error.message
+    });
+  }
 });
 
 module.exports = router;

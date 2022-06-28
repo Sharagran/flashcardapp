@@ -53,13 +53,13 @@ async function login(email, password) {
     });
     if (!account) {
         console.log('No account found with email: ' + email);
-        return null;
+        throw new Error('No account found with email: ' + email);
     }
     const hash = account.password;
     const isValid = await compare_hash(password, hash);
     if (!isValid) {
         console.log('Invalid password for account with email: ' + email);
-        return null;
+        throw new Error('Invalid password for account with email: ' + email);
     }
     const token = sign(account.id, account.email, account.username);
     return token;
@@ -72,18 +72,20 @@ async function register(email, username, password) {
         username: username
     });
     if (account) {
-        console.log('Account already exists with email: ' + email);
-        return {
-            error: 'Account already exists with email: ' + email
-        };
+        if (account.email === email) {
+            console.log('Account with email ' + email + ' already exists');
+            throw new Error('Account with email ' + email + ' already exists');
+        } else if (account.username === username) {
+            console.log('Account with username ' + username + ' already exists');
+            throw new Error('Account with username ' + username + ' already exists');
+        }
     }
 
     // create account
     const id = uuidv4();
     const hash = await hash_password(password);
-    const newAccount = await database.addAccount(id, email, username, hash);
-    console.log(newAccount);
-    return newAccount;
+    const insertionResult = await database.addAccount(id, email, username, hash);
+    return insertionResult;
 }
 
 module.exports = {
