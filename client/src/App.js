@@ -15,7 +15,10 @@ import Navbar from './components/Navbar';
 function App() {
   const { token, setToken } = useToken();
 
+  // TODO: conditional rendering
   var content = <BrowserRouter>
+  <Navbar />
+  <h1>Flashcard app</h1>
   <Routes>
     <Route exact path="/" element={<Dashboard />}></Route>
     <Route path="/learn" element={<Learn />}></Route>
@@ -24,7 +27,7 @@ function App() {
     </Routes>
 </BrowserRouter>;
 
-  console.log(window.location.pathname);
+  // console.log(window.location.pathname);
 
   // Seite ohne Authentifizierung
   if (window.location.pathname === '/files') {
@@ -41,8 +44,6 @@ function App() {
   return (
     <div>
       <Toaster position="bottom-right" />
-      <Navbar />
-      <h1>Flashcard app</h1>
       {content}
     </div>
   );
