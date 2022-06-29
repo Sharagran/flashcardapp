@@ -9,7 +9,7 @@ export default function Flashcard({begriff, erklärung, rubrik, stapel, lernStat
   return (
     <div className={`flashcard`}
       onClick={(e) => {
-        if (e.target.nodeName === 'DIV') {
+        if (e.target.nodeName === 'DIV' | !editable) {
           setFlipped(!flipped);
         }
       }}
