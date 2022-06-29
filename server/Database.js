@@ -59,10 +59,23 @@ function matchAny(query) {
     };
 }
 
+function addFlashcard(id, begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array, creatorId) {
+    return db.collection('flashcards').insertOne({
+        id: id,
+        begriff: begriff,
+        erklärung: erklärung,
+        rubrik: rubrik,
+        stapel: stapel,
+        keyword_array: keyword_array,
+        kommentar_array: kommentar_array,
+        creatorId: creatorId
+    });
+}
 
 module.exports = {
     connect,
     addAccount,
     getAccount,
-    updateAccount
+    updateAccount,
+    addFlashcard
 }

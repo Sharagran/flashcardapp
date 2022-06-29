@@ -11,8 +11,8 @@ router.get('/1', async (req, res) => {
       error: error.message
     });
   }
-  
-  
+
+
 });
 
 router.get('/2', async (req, res) => {
@@ -65,7 +65,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.route('/accountData')
-  .get( async (req, res) => {
+  .get(async (req, res) => {
     const account = await accountManager.getAccount(req.account.id);
     res.json({
       email: account.email,
@@ -88,6 +88,22 @@ router.route('/accountData')
       });
     }
   }
-);
+  );
+
+router.post('/create', async (req, res) => {
+  const { begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array } = req.body;
+
+  try {
+    await accountManager.addFlashcard(req.account.id, begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array);
+    res.json({
+      message: "Flashcard created!"
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
 
 module.exports = router;
