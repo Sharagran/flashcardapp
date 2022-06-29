@@ -7,6 +7,7 @@ import Account from './pages/Account';
 import Dashboard from './pages/Dashboard';
 import Files from './pages/Files';
 import Login from './pages/Login';
+import Create from './pages/Create';
 import Learn from './pages/Learn';
 
 import useToken from './components/useToken';
@@ -22,6 +23,7 @@ function App() {
   <Routes>
     <Route exact path="/" element={<Dashboard />}></Route>
     <Route path="/learn" element={<Learn />}></Route>
+    <Route path="/create" element={<Create />}></Route>
     {/* <Route path="/files" element={<Files />}></Route> */}
     <Route path="/account" element={<Account />}></Route>
     </Routes>

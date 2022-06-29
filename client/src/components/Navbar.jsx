@@ -8,6 +8,7 @@ export default function Navbar() {
         <div id='navbar'>
             <ul>
                 <li><NavLink to="/">Dashboard</NavLink></li>
+                <li><NavLink to="/create">Create</NavLink></li>
                 <li><NavLink to="/learn">Learn</NavLink></li>
                 <li><NavLink to="/account">Account</NavLink></li>
             </ul>

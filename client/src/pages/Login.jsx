@@ -35,7 +35,6 @@ async function registerUser(credentials) {
   }
 }
 
-
 export default function Login({ setToken }) {
   // 0 = login, 1 = register, 2 = forgot password
   const [login_option, setLoginOption] = useState(0)
