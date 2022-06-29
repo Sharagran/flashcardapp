@@ -24,3 +24,37 @@ code {
   margin: auto;
   width: 50%;
 }
+
+
+#create .myInputContainer {
+  text-align: center;
+  width: 512px;
+}
+
+.myInputWrapper {
+  background: #F1F3F4;
+  box-shadow: 3px 3px 10pxrgba(0, 0, 0, 0.1);
+  font-family: 'Hind', sans-serif;
+  font-weight: 400;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: large;
+
+  margin: 8px 0;
+  width: 100%;
+}
+
+.myInput {
+  background: #F1F3F4;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  font-size: large;
+  display: inline-block;
+  width: 100%;
+  color: #69626D;
+  font-weight: 400;
+
+  outline: none;
+  margin: 8px 0;
+}
