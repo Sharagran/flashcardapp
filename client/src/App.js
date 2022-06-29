@@ -9,6 +9,8 @@ import Files from './pages/Files';
 import Login from './pages/Login';
 import Create from './pages/Create';
 import Learn from './pages/Learn';
+import View from './pages/View';
+import Add from './pages/Add';
 
 import useToken from './components/useToken';
 import Navbar from './components/Navbar';
@@ -18,16 +20,23 @@ function App() {
 
   // TODO: conditional rendering
   var content = <BrowserRouter>
-  <Navbar />
-  <h1>Flashcard app</h1>
-  <Routes>
-    <Route exact path="/" element={<Dashboard />}></Route>
-    <Route path="/learn" element={<Learn />}></Route>
-    <Route path="/create" element={<Create />}></Route>
-    {/* <Route path="/files" element={<Files />}></Route> */}
-    <Route path="/account" element={<Account />}></Route>
+    <Navbar />
+    <h1>Flashcard app</h1>
+    <Routes>
+      <Route exact path="/" element={<Dashboard />}></Route>
+      <Route path="/view" element={<View />}></Route>
+      <Route path="/add/:id" element={<Add />}></Route>
+
+      {/* learn all cards */}
+      <Route path="/learn" element={<Learn />}></Route>
+      {/* TODO: set filter from URL paramaets */}
+      <Route path="/learn/:id" element={<Dashboard />}></Route>
+
+
+      <Route path="/account" element={<Account />}></Route>
+      {/* <Route path="/files" element={<Files />}></Route> */}
     </Routes>
-</BrowserRouter>;
+  </BrowserRouter>;
 
   // console.log(window.location.pathname);
 
