@@ -106,4 +106,44 @@ router.post('/create', async (req, res) => {
   }
 });
 
+
+
+
+
+router.get('/getFlashCards', async (req, res) => {
+  const { rubrik, stapel, keyword } = req.query;
+  var query;
+  if (rubrik) {
+    query = { rubrik: rubrik };
+  } else if (stapel) {
+    query = { stapel: stapel };
+  } else if (keyword) {
+    query = { keyword_array: keyword};
+  }
+  query.creatorId = req.account.id;
+
+  try {
+    const flashcards = await accountManager.getFlashcards(query);
+    res.json(flashcards);
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+  
+});
+
+router.get('/getFields', async (req, res) => {
+  try {
+    const fields = await accountManager.getFields(req.account.id, ['rubrik', 'stapel', 'keyword_array']);
+    res.json(fields);
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
+
 module.exports = router;

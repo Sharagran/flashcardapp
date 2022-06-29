@@ -72,10 +72,22 @@ function addFlashcard(id, begriff, erklärung, rubrik, stapel, keyword_array, ko
     });
 }
 
+function getFlashcards(query) {
+    return db.collection('flashcards').find(query).toArray();
+}
+
+function getUniqueFlashcardFields(accountid, field) {
+    return db.collection('flashcards').distinct(field, {
+        creatorId: accountid
+    });
+}
+
 module.exports = {
     connect,
     addAccount,
     getAccount,
     updateAccount,
-    addFlashcard
+    addFlashcard,
+    getFlashcards,
+    getUniqueFlashcardFields
 }

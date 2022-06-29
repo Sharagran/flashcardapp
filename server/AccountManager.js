@@ -15,8 +15,26 @@ async function addFlashcard(creatorId, begriff, erklärung, rubrik, stapel, keyw
     return database.addFlashcard(uuidv4(), begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array, creatorId);
 }
 
+async function getFlashcards(query) {
+    return database.getFlashcards(query);
+}
+
+async function getFields(accountid, fields) {
+    var returnFields = {};
+    for (var i = 0; i < fields.length; i++) {
+        var field = fields[i];
+        var tmp = await database.getUniqueFlashcardFields(accountid, field);
+        returnFields[field] = tmp;
+    }
+    return returnFields;
+}
+
+
+
 module.exports = {
     updateAccount,
     getAccount,
-    addFlashcard
+    addFlashcard,
+    getFlashcards,
+    getFields
 }
