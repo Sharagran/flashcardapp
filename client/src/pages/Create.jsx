@@ -22,7 +22,8 @@ export default function Create() {
             setRubrikList(data.rubrik);
             setStapelList(data.stapel);
 
-            console.log(data);
+            setRubrik(data.rubrik[0]);
+            setStapel(data.stapel[0]);
         });
     }, [])
 
@@ -103,13 +104,13 @@ export default function Create() {
                         <Flashcard begriff='Begriff' erklärung='Erklärung' editable={true} />
                     </div>
                     <div className="myInputWrapper">
-                        <label>Rubrik</label>
+                        <label>Rubrik:</label>
                         <select className='myInput' value={rubrik} onChange={(e) => setRubrik(e.target.value)}>
                             {rubrikList.map(rubrik => <option key={rubrik} value={rubrik}>{rubrik}</option>)}
                         </select>
                     </div>
                     <div className="myInputWrapper">
-                        <label>Stapel</label>
+                        <label>Stapel {rubrik}:</label>
                         <select className='myInput' value={stapel} onChange={(e) => setStapel(e.target.value)}>
                             {stapelList.map(stapel => <option key={stapel} value={stapel}>{stapel}</option>)}
                         </select>
