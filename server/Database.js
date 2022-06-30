@@ -33,83 +33,76 @@ function matchAny(query) {
 
 //#region Account
 
-function addAccount(id, email, username, password) {
-    return new Promise((resolve, reject) => {
-        db.collection('accounts').insertOne({
-            id: id,
-            email: email,
-            username: username,
-            password: password,
-            avatar: null
-        }).then(resolve).catch(reject);
+async function addAccount(id, email, username, password) {
+    return db.collection('accounts').insertOne({
+        id: id,
+        email: email,
+        username: username,
+        password: password,
+        avatar: null
     });
 }
 
-function getAccount(query) {
+async function getAccount(query) {
     const matchQuery = matchAny(query);
-    return new Promise((resolve, reject) => {
-        db.collection('accounts').findOne(matchQuery).then(resolve).catch(reject);
-    });
+    return db.collection('accounts').findOne(matchQuery);
 }
 
 // TODO: überprüfen, ob email und username unique sind
-function updateAccount(id, email, username, avatar) {
-    return new Promise((resolve, reject) => {
-        db.collection('accounts').updateOne({
-            id: id
-        }, {
-            $set: {
-                email: email,
-                username: username,
-                avatar: avatar
-            }
-        }).then(resolve).catch(reject);
+async function updateAccount(id, email, username, avatar) {
+    db.collection('accounts').updateOne({
+        id: id
+    }, {
+        $set: {
+            email: email,
+            username: username,
+            avatar: avatar
+        }
     });
 }
 
 //#endregion
 
-
-function addRubrik(name, ownerId) {
-    return new Promise((resolve, reject) => {
-        db.collection('rubrik').insertOne({
-            name: name,
-            ownerId: ownerId
-        }).then(resolve).catch(reject);
+async function addRubrik(name, ownerId) {
+    db.collection('rubrik').insertOne({
+        name: name,
+        ownerId: ownerId
     });
 }
 
-function addStapel(name, rubrikId) {
-    return new Promise((resolve, reject) => {
-        db.collection('stapel').insertOne({
-            name: name,
-            rubrikId: rubrikId
-        }).then(resolve).catch(reject);
+async function addStapel(name, rubrikId) {
+    return db.collection('stapel').insertOne({
+        name: name,
+        rubrikId: rubrikId
     });
 }
 
-function addFlashcard(begriff, erklärung, keyword_array, kommentar_array, stapelID) {
-    return new Promise((resolve, reject) => {
-        db.collection('flashcards').insertOne({
-            begriff: begriff,
-            erklärung: erklärung,
-            keyword_array: keyword_array,
-            kommentar_array: kommentar_array,
-            stapelID: stapelID,
-            lernstatus: 0
-        }).then(resolve).catch(reject);
+async function addFlashcard(begriff, erklärung, keyword_array, kommentar_array, stapelID) {
+    return db.collection('flashcards').insertOne({
+        begriff: begriff,
+        erklärung: erklärung,
+        keyword_array: keyword_array,
+        kommentar_array: kommentar_array,
+        stapelID: stapelID,
+        lernstatus: 0
     });
 }
 
-function getFlashcards(query) {
+async function getFlashcards(query) {
     return db.collection('flashcards').find(query).toArray();
 }
 
-function getUniqueFlashcardFields(accountid, field) {
+async function getUniqueFlashcardFields(accountid, field) {
     return db.collection('flashcards').distinct(field, {
         creatorId: accountid
     });
 }
+
+async function getAllRubriken() {
+    return db.collection('rubrik').find({}).toArray();
+}
+
+
 
 module.exports = {
     connect,
@@ -120,8 +113,9 @@ module.exports = {
 
     addRubrik,
     addStapel,
-    addCard: addFlashcard,
+    addFlashcard,
 
     getFlashcards,
-    getUniqueFlashcardFields
+    getUniqueFlashcardFields,
+    getAllRubriken
 }
