@@ -2,34 +2,7 @@ const router = require('express').Router();
 const authenticator = require('./Authenticator');
 const accountManager = require('./AccountManager');
 
-router.get('/1', async (req, res) => {
-  try {
-    const insertionResult = await authenticator.register("filipmas@gmail.com", "Sharagra", "123456");
-    res.json(insertionResult);
-  } catch (error) {
-    res.status(401).json({
-      error: error.message
-    });
-  }
-
-
-});
-
-router.get('/2', async (req, res) => {
-  const token = await authenticator.login("filipmas@gmail.com", "123456");
-  authenticator.verify(token, (err, decoded) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(decoded);
-    }
-  }
-  );
-});
-
-router.get('/3', async (req, res) => {
-  res.json(req.account);
-});
+const Database = require('./Database');
 
 
 //TODO: fix error codes
@@ -106,10 +79,6 @@ router.post('/create', async (req, res) => {
   }
 });
 
-
-
-
-
 router.get('/getFlashCards', async (req, res) => {
   const { rubrik, stapel, keyword } = req.query;
   var query;
@@ -145,5 +114,24 @@ router.get('/getFields', async (req, res) => {
     });
   }
 });
+
+router.get('/test', async (req, res) => {
+  // Database.addRubrik('testrubrik', 'testID').then(result => {
+  //   console.log(result);
+  //   res.json(result);
+  // });
+
+  // Database.addStapel('test', 'ddec56fb-a107-4878-8d23-94634bda6b0d').then(result => {
+  //   console.log(result);
+  //   res.json(result);
+  // });
+
+  Database.addCard('6d9d86d2-6bb5-45fd-91da-e681d3d25235', 'testBegriff', 'testErklärung', ['testkeyword'], ['testcomment']).then(result => {
+    console.log(result);
+    res.json(result);
+  });
+
+});
+
 
 module.exports = router;

@@ -6,11 +6,6 @@ import { PieChart } from 'react-minimal-pie-chart';
 // TODO: pie chart: https://www.npmjs.com/package/react-minimal-pie-chart oder https://canvasjs.com/react-charts/pie-chart/
 
 export default function Dashboard() {
-  function test() {
-    console.log(axios.defaults.headers.common);
-    axios.get('http://localhost:3001/test');
-  }
-
   return (
     <div>
       <h1>Dashboard</h1>
@@ -26,8 +21,6 @@ export default function Dashboard() {
           ]}
         />
       </div>
-
-      <button onClick={test}>Test</button>
     </div>
   )
 }

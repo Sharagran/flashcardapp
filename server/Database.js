@@ -1,6 +1,5 @@
 const { MongoClient } = require('mongodb');
 
-
 // Connection URL
 const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
@@ -15,33 +14,6 @@ async function connect() {
     await client.connect();
     console.log('Connected successfully to Database');
     db = client.db(dbName);
-}
-
-async function addAccount(id, email, username, password) {
-    return db.collection('accounts').insertOne({
-        id: id,
-        email: email,
-        username: username,
-        password: password,
-        avatar: null
-    });
-}
-
-async function getAccount(query) {
-    const matchQuery = matchAny(query);
-    return db.collection('accounts').findOne(matchQuery);
-}
-
-async function updateAccount(id, email, username, avatar) {
-    return db.collection('accounts').updateOne({
-        id: id
-    }, {
-        $set: {
-            email: email,
-            username: username,
-            avatar: avatar
-        }
-    });
 }
 
 // Überprüft, ob eines der query-ausdrucke zutrifft
@@ -59,61 +31,73 @@ function matchAny(query) {
     };
 }
 
-function addRubrik(name) {
-    return db.collection('flashcards').insertOne({
-        name: name,
-        stapel: []
-    });    
+//#region Account
+
+function addAccount(id, email, username, password) {
+    return new Promise((resolve, reject) => {
+        db.collection('accounts').insertOne({
+            id: id,
+            email: email,
+            username: username,
+            password: password,
+            avatar: null
+        }).then(resolve).catch(reject);
+    });
 }
 
-function addStapel(name, rubrik) {
-    return db.collection('flashcards').updateOne(
-        { name: rubrik },
-        { $push: { stapel: {
-            name: name,
-            cards: []
-        }}},
-        { upsert: true }
-    );
+function getAccount(query) {
+    const matchQuery = matchAny(query);
+    return new Promise((resolve, reject) => {
+        db.collection('accounts').findOne(matchQuery).then(resolve).catch(reject);
+    });
 }
 
-function addCard(id, begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array, creatorId) {
-    return db.collection('flashcards').updateOne(
-        { "rubrik": rubrik, "stapel.name": stapel},
-        { "$push": 
-            {"stapel.$.flashcards": 
-                {
-                    "begriff": begriff,
-                    "erklärung": erklärung,
-                    "keyword_array": keyword_array,
-                    "kommentar_array": kommentar_array,
-                    "creatorId": creatorId
-                }
+// TODO: überprüfen, ob email und username unique sind
+function updateAccount(id, email, username, avatar) {
+    return new Promise((resolve, reject) => {
+        db.collection('accounts').updateOne({
+            id: id
+        }, {
+            $set: {
+                email: email,
+                username: username,
+                avatar: avatar
             }
-        },
-        { "upsert": true }
-    )
+        }).then(resolve).catch(reject);
+    });
 }
 
-function addFlashcard(id, begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array, creatorId) {
-    // add stapel
-    // db.collection('flashcards').updateOne(
-    //     { rubrik: rubrik },
-    //     { $addToSet: { stapel: stapel } });
-    // add flashcard to stapel
-    addRubrik(rubrik);
-    addStapel(stapel, rubrik);
-    return addCard(id, begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array, creatorId);
+//#endregion
 
-    return db.collection('flashcards').insertOne({
-        id: id,
-        begriff: begriff,
-        erklärung: erklärung,
-        rubrik: rubrik,
-        stapel: stapel,
-        keyword_array: keyword_array,
-        kommentar_array: kommentar_array,
-        creatorId: creatorId
+
+function addRubrik(name, ownerId) {
+    return new Promise((resolve, reject) => {
+        db.collection('rubrik').insertOne({
+            name: name,
+            ownerId: ownerId
+        }).then(resolve).catch(reject);
+    });
+}
+
+function addStapel(name, rubrikId) {
+    return new Promise((resolve, reject) => {
+        db.collection('stapel').insertOne({
+            name: name,
+            rubrikId: rubrikId
+        }).then(resolve).catch(reject);
+    });
+}
+
+function addFlashcard(begriff, erklärung, keyword_array, kommentar_array, stapelID) {
+    return new Promise((resolve, reject) => {
+        db.collection('flashcards').insertOne({
+            begriff: begriff,
+            erklärung: erklärung,
+            keyword_array: keyword_array,
+            kommentar_array: kommentar_array,
+            stapelID: stapelID,
+            lernstatus: 0
+        }).then(resolve).catch(reject);
     });
 }
 
@@ -129,10 +113,15 @@ function getUniqueFlashcardFields(accountid, field) {
 
 module.exports = {
     connect,
+
     addAccount,
     getAccount,
     updateAccount,
-    addFlashcard,
+
+    addRubrik,
+    addStapel,
+    addCard: addFlashcard,
+
     getFlashcards,
     getUniqueFlashcardFields
 }
