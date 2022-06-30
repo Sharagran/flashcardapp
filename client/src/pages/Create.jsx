@@ -5,12 +5,27 @@ import Flashcard from '../components/Flashcard'
 import { TagInput } from 'reactjs-tag-input'
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+
 
 export default function Create() {
     const [rubrik, setRubrik] = useState('');
     const [stapel, setStapel] = useState('');
     const [keyword_array, setKeyword_array] = useState([]);
     const [kommentar_array, setKommentar_array] = useState([]);
+
+    const [rubrikList, setRubrikList] = useState([]);
+    const [stapelList, setStapelList] = useState([]);
+
+    useEffect(() => {
+        getFields().then(data => {
+            setRubrikList(data.rubrik);
+            setStapelList(data.stapel);
+
+            console.log(data);
+        });
+    }, [])
+
 
     function createFlashcard(e) {
         e.preventDefault();
@@ -67,6 +82,16 @@ export default function Create() {
         setKommentar_array([]);
     }
 
+    function getFields() {
+        return new Promise((resolve, reject) => {
+            axios.get('http://localhost:3001/getFields').then(res => {
+                resolve(res.data);
+            }).catch(err => {
+                reject(err.response.data.error);
+            });
+        });
+    }
+
     return (
         <div id='create'>
             <h2>Create</h2>
@@ -78,10 +103,16 @@ export default function Create() {
                         <Flashcard begriff='Begriff' erklärung='Erklärung' editable={true} />
                     </div>
                     <div className="myInputWrapper">
-                        <input type="text" className='myInput' placeholder='Rubrik' value={rubrik} onChange={(e) => setRubrik(e.target.value)} />
+                        <label>Rubrik</label>
+                        <select className='myInput' value={rubrik} onChange={(e) => setRubrik(e.target.value)}>
+                            {rubrikList.map(rubrik => <option key={rubrik} value={rubrik}>{rubrik}</option>)}
+                        </select>
                     </div>
                     <div className="myInputWrapper">
-                        <input type="text" className='myInput' placeholder='Stapel' value={stapel} onChange={(e) => setStapel(e.target.value)} />
+                        <label>Stapel</label>
+                        <select className='myInput' value={stapel} onChange={(e) => setStapel(e.target.value)}>
+                            {stapelList.map(stapel => <option key={stapel} value={stapel}>{stapel}</option>)}
+                        </select>
                     </div>
                     <TagInput tags={keyword_array} onTagsChanged={(tags) => setKeyword_array(tags)} placeholder="Keywords"
                         wrapperStyle={`
