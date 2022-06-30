@@ -47,6 +47,10 @@ export default function Learn({ rubrik, stapel, keyword }) {
     }
   }
 
+  if (flashcards.length === 0) {
+    return <div>Keine Flashcards gefunden</div>
+  }
+
   return (
     <div className='center'>
       <h2>Learn</h2>
