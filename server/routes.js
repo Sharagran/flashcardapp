@@ -133,7 +133,6 @@ router.get('/getStapel', async (req, res) => {
 router.get('/getKeywords', async (req, res) => {
   try {
     const keywords = await database.getAllKeywords(req.account.id);
-    console.log(keywords, req.account.id);
     res.json(keywords);
   } catch (error) {
     console.log(error);
