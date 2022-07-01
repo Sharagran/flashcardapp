@@ -139,7 +139,7 @@ async function getAllKeywords(accountID) {
             },
             {
                 '$match': {
-                    'Rubrik.ownerId': ObjectId(accountID)
+                    'Rubrik.ownerId': accountID
                 }
             }
         ]).toArray().then(result => {

@@ -67,7 +67,6 @@ router.post('/create', async (req, res) => {
   const { begriff, erklärung, stapel, keyword_array, kommentar_array } = req.body;
 
   try {
-    console.log(begriff, erklärung, keyword_array, kommentar_array, stapel);
     await database.addFlashcard(begriff, erklärung, keyword_array, kommentar_array, stapel);
     res.json({
       message: "Flashcard created!"
@@ -93,6 +92,7 @@ router.get('/getFlashCards', async (req, res) => {
   query.creatorId = req.account.id;
 
   try {
+    console.log("getFlashCards");
     console.log(query);
     query = {}; //FIXME: debug only
     const flashcards = await accountManager.getFlashcards(query);
@@ -110,8 +110,6 @@ router.get('/getFlashCards', async (req, res) => {
 router.get('/getRubriken', async (req, res) => {
   try {
     const rubriken = await database.getAllRubriken(req.account.id);
-    // const rubriken = await database.getAllRubriken("testID");
-    console.log(rubriken);
     res.json(rubriken);
   } catch (error) {
     console.log(error);
@@ -136,8 +134,8 @@ router.get('/getStapel', async (req, res) => {
 
 router.get('/getKeywords', async (req, res) => {
   try {
-    const keywords = await database.getAllKeywords("testID2");
-    console.log(keywords);
+    const keywords = await database.getAllKeywords(req.account.id);
+    console.log(keywords, req.account.id);
     res.json(keywords);
   } catch (error) {
     console.log(error);
