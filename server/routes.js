@@ -207,8 +207,25 @@ router.post('/upload', async (req, res) => {
   fs.mkdirSync(`./uploads/${req.account.id}`, { recursive: true });
 
   const { files } = req.files;
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
+
+  //check if array
+  if (Array.isArray(files)) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const path = `${__dirname}/uploads/${req.account.id}/${file.name}`;
+
+      file.mv(path, function (err) {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            error: err
+          });
+        }
+      });
+    }
+  } else {
+    const file = files;
+    console.log(file);
     const path = `${__dirname}/uploads/${req.account.id}/${file.name}`;
 
     file.mv(path, function (err) {
