@@ -101,11 +101,6 @@ export default function Create() {
 
         begriff.innerHTML = 'Begriff';
         erklärung.innerHTML = 'Erklärung';
-
-        setRubrik({});
-        setStapel({});
-        setKeyword_array([]);
-        setKommentar_array([]);
     }
 
     async function getRubriken() {
