@@ -156,6 +156,16 @@ async function getAllKeywords(accountID) {
     });
 }
 
+async function updateLernstatus(flashcardId, lernstatus) {
+    return db.collection('flashcards').updateOne({
+        _id: ObjectId(flashcardId)
+    }, {
+        $set: {
+            lernstatus: lernstatus
+        }
+    });
+}
+
 
 
 module.exports = {
@@ -174,5 +184,7 @@ module.exports = {
     getAllKeywords,
 
     getFlashcards,
-    getAllFlashcards
+    getAllFlashcards,
+
+    updateLernstatus
 }

@@ -172,6 +172,22 @@ router.post('/createStapel', async (req, res) => {
   }
 });
 
+router.post('/setLernStatus', async (req, res) => {
+  const { id, lernStatus } = req.body;
+  console.log(id, lernStatus);
+  try {
+    await database.updateLernstatus(id, lernStatus);
+    res.json({
+      message: "LernStatus updated!"
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
+
 router.get('/test', async (req, res) => {
   // Database.getAllRubriken().then(result => {
   //   console.log(result);

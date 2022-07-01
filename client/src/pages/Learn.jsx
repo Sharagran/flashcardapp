@@ -10,15 +10,18 @@ import toast from 'react-hot-toast';
 
 
 export default function Learn({ rubrik, stapel, keyword }) {
-  const [flashcards, setFlashcards] = useState([{}]);
-  const [flashCardIndex, setFlashCardIndex] = useState(0);
+  const [flashcardList, setFlashcards] = useState([{}]);
+  const [flashcardIndex, setFlashCardIndex] = useState(0);
 
   useEffect(() => {
-    getFlashcards();
+    getFlashcards().then(flashcards => {
+      setFlashcards(flashcards);
+      console.log(flashcards);
+    });
   }, [])
   
   async function getFlashcards() {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       axios.get(`http://localhost:3001/getFlashCards`, {
         params: {
           rubrik: "1",
@@ -31,15 +34,12 @@ export default function Learn({ rubrik, stapel, keyword }) {
         reject(err.response.data.error);
       });
     });
-
-    const result = await promise;
-    setFlashcards(result);
-    console.log(result);
   }
 
+  // TODO: zufällige Flashcards auswählen
   function nextFlashcard() {
-    if (flashCardIndex < flashcards.length - 1) {
-      setFlashCardIndex(flashCardIndex + 1);
+    if (flashcardIndex < flashcardList.length - 1) {
+      setFlashCardIndex(flashcardIndex + 1);
     } else {
       toast(`Keine weiteren Flashcards ${rubrik ? `in der Rubrik ${rubrik}` : stapel ? `in dem Stapel ${stapel}` : `mit dem keyword ${keyword}`}`, {
         icon: '❕'
@@ -47,7 +47,24 @@ export default function Learn({ rubrik, stapel, keyword }) {
     }
   }
 
-  if (flashcards.length === 0) {
+  async function setLernstatus(lernStatus) {
+    console.log(flashcardList[flashcardIndex]);
+    axios.post(`http://localhost:3001/setLernstatus`, {
+      id: flashcardList[flashcardIndex]._id,
+      lernStatus: lernStatus
+    }).then(res => {
+      console.log(res.data);
+      nextFlashcard();
+    }).catch(err => {
+      toast.error(err.response.data.error);
+    });
+  }
+
+  function teilen() {
+    throw new Error("Not implemented"); //TODO: 
+  }
+
+  if (flashcardList.length === 0) {
     return <div>Keine Flashcards gefunden</div>
   }
 
@@ -55,19 +72,18 @@ export default function Learn({ rubrik, stapel, keyword }) {
     <div className='center'>
       <h2>Learn</h2>
       <Flashcard
-        rubrik={flashcards[flashCardIndex].rubrik}
-        begriff={flashcards[flashCardIndex].begriff}
-        erklärung={flashcards[flashCardIndex].erklärung}
-        lernStatus={flashcards[flashCardIndex].lernStatus}
-        editable={false}
+        rubrik={flashcardList[flashcardIndex].rubrik}
+        begriff={flashcardList[flashcardIndex].begriff}
+        erklärung={flashcardList[flashcardIndex].erklärung}
+        lernStatus={flashcardList[flashcardIndex].lernStatus}
       />
       <div>
-        <button>Kann's nicht</button>
+        <button onClick={() => {setLernstatus(-1)}}>Kann's nicht</button>
         <button onClick={nextFlashcard}>Überspringen</button>
-        <button>Hab's drauf</button>
+        <button onClick={() => {setLernstatus(1)}}>Hab's drauf</button>
         <br />
         {/* nicht sicher bei folgenden funktionen */}
-        <button>Teilen</button>
+        <button onClick={teilen}>Teilen</button>
       </div>
     </div>
   )
