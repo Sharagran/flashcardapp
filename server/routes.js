@@ -108,8 +108,8 @@ router.get('/getFlashCards', async (req, res) => {
 
 router.get('/getRubriken', async (req, res) => {
   try {
-    // const rubriken = await database.getAllRubriken("req.account.id");	
-    const rubriken = await database.getAllRubriken("testID");
+    const rubriken = await database.getAllRubriken(req.account.id);
+    // const rubriken = await database.getAllRubriken("testID");
     console.log(rubriken);
     res.json(rubriken);
   } catch (error) {
@@ -146,7 +146,35 @@ router.get('/getKeywords', async (req, res) => {
   }
 });
 
+router.post('/createRubrik', async (req, res) => {
+  const {name } = req.body;
+  try {
+    await database.addRubrik(name, req.account.id);
+    res.json({
+      message: "Rubrik created!"
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
 
+router.post('/createStapel', async (req, res) => {
+  const { name, rubrikId } = req.body;
+  try {
+    await database.addStapel(name, rubrikId);
+    res.json({
+      message: "Stapel created!"
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
 
 router.get('/test', async (req, res) => {
   // Database.addRubrik('testrubrik2', 'testID2').then(result => {

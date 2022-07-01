@@ -94,7 +94,7 @@ async function getFlashcards(query) {
 
 async function getAllRubriken(accountID) {
     return db.collection('rubrik').find({
-        ownerId: ObjectId(accountID)
+        ownerId: accountID
     }).toArray();
 }
 
