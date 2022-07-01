@@ -33,8 +33,8 @@ export default function Camera({ setFiles }) {
 
     return (
         <>
+            <img src={dataUri} alt='' />
             <ReactCamera onTakePhoto={(dataUri) => { handleTakePhoto(dataUri); }} />
-            <img src={dataUri} />
         </>
     )
 }
