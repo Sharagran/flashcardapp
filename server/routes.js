@@ -64,10 +64,11 @@ router.route('/accountData')
   );
 
 router.post('/create', async (req, res) => {
-  const { begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array } = req.body;
+  const { begriff, erklärung, stapel, keyword_array, kommentar_array } = req.body;
 
   try {
-    await accountManager.addFlashcard(req.account.id, begriff, erklärung, rubrik, stapel, keyword_array, kommentar_array);
+    console.log(begriff, erklärung, keyword_array, kommentar_array, stapel);
+    await database.addFlashcard(begriff, erklärung, keyword_array, kommentar_array, stapel);
     res.json({
       message: "Flashcard created!"
     });
@@ -177,22 +178,6 @@ router.post('/createStapel', async (req, res) => {
 });
 
 router.get('/test', async (req, res) => {
-  // Database.addRubrik('testrubrik2', 'testID2').then(result => {
-  //   console.log(result);
-  //   res.json(result);
-  // });
-
-  // Database.addStapel('test2', '62be343aa9af08963492eac9').then(result => {
-  //   console.log(result);
-  //   res.json(result);
-  // });
-
-  // Database.addFlashcard('testBegriff3', 'testErklärung', ['testkeyword', "key", 'lol'], ['testcomment'], '62be34bc92c3557bc322a151').then(result => {
-  //   console.log(result);
-  //   res.json(result);
-  // });
-
-
   // Database.getAllRubriken().then(result => {
   //   console.log(result);
   //   res.json(result);

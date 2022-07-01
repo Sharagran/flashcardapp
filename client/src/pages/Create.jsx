@@ -56,9 +56,7 @@ export default function Create() {
         const flashcard = {
             begriff: begriff.innerHTML,
             erklärung: erklärung.innerHTML,
-            rubrik: rubrik,
-            stapel: stapel,
-            lernStatus: 0,
+            stapel: stapel._id,
             keyword_array: keywords,
             kommentar_array: kommentar_array
         }
