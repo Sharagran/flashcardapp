@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 const routes = require('./routes');
 const verifier = require('./verifier');
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(bodyparser.json());
 app.use(cors());
+app.use(fileUpload());
 
 // public routes which don't require authentication
 const excluded_urls = [

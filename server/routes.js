@@ -2,6 +2,8 @@ const router = require('express').Router();
 const authenticator = require('./Authenticator');
 const database = require('./Database');
 
+const fs = require('fs');
+
 
 //TODO: fix error codes
 router.post('/login', async (req, res) => {
@@ -85,7 +87,7 @@ router.get('/getFlashCards', async (req, res) => {
   } else if (stapel) {
     query = { stapel: stapel };
   } else if (keyword) {
-    query = { keyword_array: keyword};
+    query = { keyword_array: keyword };
   }
   query.creatorId = req.account.id;
 
@@ -102,7 +104,7 @@ router.get('/getFlashCards', async (req, res) => {
       error: error.message
     });
   }
-  
+
 });
 
 router.get('/getRubriken', async (req, res) => {
@@ -143,7 +145,7 @@ router.get('/getKeywords', async (req, res) => {
 });
 
 router.post('/createRubrik', async (req, res) => {
-  const {name } = req.body;
+  const { name } = req.body;
   try {
     await database.addRubrik(name, req.account.id);
     res.json({
@@ -198,6 +200,29 @@ router.get('/getStats', async (req, res) => {
       error: error.message
     });
   }
+});
+
+router.post('/upload', async (req, res) => {
+  //create user folder if not exists
+  fs.mkdirSync(`./uploads/${req.account.id}`, { recursive: true });
+
+  const { files } = req.files;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const path = `${__dirname}/uploads/${req.account.id}/${file.name}`;
+    console.log(path);
+    file.mv(path, function (err) {
+      console.log(err);
+      return res.status(500).json({
+        error: err
+      });
+    });
+  }
+
+  res.json({
+    message: "File uploaded!"
+  });
+
 });
 
 
