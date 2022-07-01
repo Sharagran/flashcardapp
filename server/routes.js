@@ -116,17 +116,28 @@ router.get('/getFields', async (req, res) => {
 });
 
 router.get('/test', async (req, res) => {
-  // Database.addRubrik('testrubrik', 'testID').then(result => {
+  // Database.addRubrik('testrubrik2', 'testID2').then(result => {
   //   console.log(result);
   //   res.json(result);
   // });
 
-  // Database.addStapel('test', 'ddec56fb-a107-4878-8d23-94634bda6b0d').then(result => {
+  // Database.addStapel('test2', '62be343aa9af08963492eac9').then(result => {
   //   console.log(result);
   //   res.json(result);
   // });
 
-  Database.addCard('6d9d86d2-6bb5-45fd-91da-e681d3d25235', 'testBegriff', 'testErklärung', ['testkeyword'], ['testcomment']).then(result => {
+  // Database.addFlashcard('testBegriff3', 'testErklärung', ['testkeyword'], ['testcomment'], '62be34bc92c3557bc322a151').then(result => {
+  //   console.log(result);
+  //   res.json(result);
+  // });
+
+
+  // Database.getAllRubriken().then(result => {
+  //   console.log(result);
+  //   res.json(result);
+  // });
+
+  Database.getAllKeywords("testID2").then(result => {
     console.log(result);
     res.json(result);
   });

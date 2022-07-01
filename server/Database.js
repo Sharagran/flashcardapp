@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -50,7 +50,7 @@ async function getAccount(query) {
 
 // TODO: überprüfen, ob email und username unique sind
 async function updateAccount(id, email, username, avatar) {
-    db.collection('accounts').updateOne({
+    return db.collection('accounts').updateOne({
         id: id
     }, {
         $set: {
@@ -64,7 +64,7 @@ async function updateAccount(id, email, username, avatar) {
 //#endregion
 
 async function addRubrik(name, ownerId) {
-    db.collection('rubrik').insertOne({
+    return db.collection('rubrik').insertOne({
         name: name,
         ownerId: ownerId
     });
@@ -73,17 +73,17 @@ async function addRubrik(name, ownerId) {
 async function addStapel(name, rubrikId) {
     return db.collection('stapel').insertOne({
         name: name,
-        rubrikId: rubrikId
+        rubrikId: ObjectId(rubrikId)
     });
 }
 
-async function addFlashcard(begriff, erklärung, keyword_array, kommentar_array, stapelID) {
+async function addFlashcard(begriff, erklärung, keyword_array, kommentar_array, stapelId) {
     return db.collection('flashcards').insertOne({
         begriff: begriff,
         erklärung: erklärung,
         keyword_array: keyword_array,
         kommentar_array: kommentar_array,
-        stapelID: stapelID,
+        stapelID: ObjectId(stapelId),
         lernstatus: 0
     });
 }
@@ -98,8 +98,65 @@ async function getUniqueFlashcardFields(accountid, field) {
     });
 }
 
-async function getAllRubriken() {
-    return db.collection('rubrik').find({}).toArray();
+async function getAllRubriken(accountID) {
+    return db.collection('rubrik').find({
+        ownerId: accountID
+    }).toArray();
+}
+
+async function getAllStapel(rubrikId) {
+    return db.collection('stapel').find({
+        rubrikId: rubrikId
+    }).toArray();
+}
+
+async function getAllFlashcards(stapelId) {
+    return db.collection('flashcards').find({
+        stapelID: stapelId
+    }).toArray();
+}
+
+async function getAllKeywords(accountID) {
+    return new Promise((resolve, reject) => {
+        db.collection('flashcards').aggregate([
+            {
+                '$lookup': {
+                    'from': 'stapel',
+                    'localField': 'stapelID',
+                    'foreignField': '_id',
+                    'as': 'Stapel'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$Stapel'
+                }
+            }, {
+                '$lookup': {
+                    'from': 'rubrik',
+                    'localField': 'Stapel.rubrikId',
+                    'foreignField': '_id',
+                    'as': 'Rubrik'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$Rubrik'
+                }
+            },
+            {
+                '$match': {
+                    'Rubrik.ownerId': accountID
+                }
+            }
+        ]).toArray().then(result => {
+            const keywords = new Set();
+            result.forEach(flashcard => {
+                flashcard.keyword_array.forEach(keyword => {
+                    keywords.add(keyword);
+                });
+            });
+            resolve(Array.from(keywords));
+        }).catch(reject);
+    });
 }
 
 
@@ -117,5 +174,6 @@ module.exports = {
 
     getFlashcards,
     getUniqueFlashcardFields,
-    getAllRubriken
+    getAllRubriken,
+    getAllKeywords
 }
