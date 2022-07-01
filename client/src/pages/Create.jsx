@@ -21,7 +21,7 @@ export default function Create() {
         getRubriken().then(rubriken => {
             setRubrikList(rubriken);
             setRubrik(rubriken[0]);
-        });
+        }).catch(toast.error);
     }, [])
 
 
@@ -73,7 +73,7 @@ export default function Create() {
         getStapel(rubrik._id).then(stapel => {
             setStapelList(stapel);
             setStapel(stapel[0]);
-        });
+        }).catch(toast.error);
     }
 
     function clearInputs() {
@@ -83,8 +83,8 @@ export default function Create() {
         begriff.innerHTML = 'Begriff';
         erklärung.innerHTML = 'Erklärung';
 
-        setRubrik('');
-        setStapel('');
+        setRubrik({});
+        setStapel({});
         setKeyword_array([]);
         setKommentar_array([]);
     }

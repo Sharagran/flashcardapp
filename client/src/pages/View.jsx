@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import Learn from './Learn';
 
 import '../styles/view.css'
@@ -9,7 +10,7 @@ import { useState } from 'react';
 
 export default function View() {
     const [rubrikList, setRubrikList] = useState([]);
-    const [stapelList, setStapelList] = useState([]);
+    const [stapelList, setStapelList] = useState([]); //TODO: stapel auslagern
     const [keywordList, setKeywordList] = useState([]);
     const [flashcards, setFlashcards] = useState([]);
 
@@ -49,15 +50,15 @@ export default function View() {
     useEffect(() => {
         getRubriken().then(rubriken => {
             setRubrikList(rubriken);
-        });
+        }).catch(toast.error);
 
         getKeywords().then(keywords => {
             setKeywordList(keywords);
-        });
+        }).catch(toast.error);
 
         getFlashcards().then(flashcards => {
             setFlashcards(flashcards);
-        });
+        }).catch(toast.error);
 
     }, [])
 
