@@ -13,16 +13,6 @@ export default function View() {
     const [keywordList, setKeywordList] = useState([]);
     const [flashcards, setFlashcards] = useState([]);
 
-    async function getFields() {
-        return new Promise((resolve, reject) => {
-            axios.get('http://localhost:3001/getFields').then(res => {
-                resolve(res.data);
-            }).catch(err => {
-                reject(err.response.data.error);
-            });
-        });
-    }
-
     async function getRubriken() {
         return new Promise((resolve, reject) => {
             axios.get('http://localhost:3001/getRubriken').then(res => {
@@ -57,12 +47,6 @@ export default function View() {
 
 
     useEffect(() => {
-        // getFields().then(data => {
-        //     setRubrikList(data.rubrik);
-        //     setStapelList(data.stapel);
-        //     setKeywordList(data.keyword_array);
-        // });
-
         getRubriken().then(rubriken => {
             setRubrikList(rubriken);
         });

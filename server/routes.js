@@ -106,20 +106,6 @@ router.get('/getFlashCards', async (req, res) => {
   
 });
 
-router.get('/getFields', async (req, res) => {
-  //TODO: remove this route
-  try {
-    const fields = await accountManager.getFields(req.account.id, ['rubrik', 'stapel', 'keyword_array']);
-    res.json(fields);
-  } catch (error) {
-    console.log(error);
-    res.status(401).json({
-      error: error.message
-    });
-  }
-});
-
-
 router.get('/getRubriken', async (req, res) => {
   try {
     // const rubriken = await database.getAllRubriken("req.account.id");	

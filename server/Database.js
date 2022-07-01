@@ -92,12 +92,6 @@ async function getFlashcards(query) {
     return db.collection('flashcards').find(query).toArray();
 }
 
-async function getUniqueFlashcardFields(accountid, field) {
-    return db.collection('flashcards').distinct(field, {
-        creatorId: accountid
-    });
-}
-
 async function getAllRubriken(accountID) {
     return db.collection('rubrik').find({
         ownerId: ObjectId(accountID)
@@ -145,7 +139,7 @@ async function getAllKeywords(accountID) {
             },
             {
                 '$match': {
-                    'Rubrik.ownerId': accountID
+                    'Rubrik.ownerId': ObjectId(accountID)
                 }
             }
         ]).toArray().then(result => {
@@ -174,7 +168,6 @@ module.exports = {
     addFlashcard,
 
     getFlashcards,
-    getUniqueFlashcardFields, //FIXME: uhnötig?
 
     getAllRubriken,
     getAllStapel,

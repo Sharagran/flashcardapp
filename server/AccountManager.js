@@ -19,22 +19,10 @@ async function getFlashcards(query) {
     return database.getFlashcards(query);
 }
 
-async function getFields(accountid, fields) {
-    var returnFields = {};
-    for (var i = 0; i < fields.length; i++) {
-        var field = fields[i];
-        var tmp = await database.getUniqueFlashcardFields(accountid, field);
-        returnFields[field] = tmp;
-    }
-    return returnFields;
-}
-
-
 
 module.exports = {
     updateAccount,
     getAccount,
     addFlashcard,
-    getFlashcards,
-    getFields
+    getFlashcards
 }
