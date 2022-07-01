@@ -188,6 +188,19 @@ router.post('/setLernStatus', async (req, res) => {
   }
 });
 
+router.get('/getStats', async (req, res) => {
+  try {
+    const stats = await database.getStats(req.account.id);
+    res.json(stats);
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
+
+
 router.get('/test', async (req, res) => {
   // Database.getAllRubriken().then(result => {
   //   console.log(result);

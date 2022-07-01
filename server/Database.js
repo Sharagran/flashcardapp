@@ -80,6 +80,7 @@ async function addStapel(name, rubrikId) {
 }
 
 async function addFlashcard(begriff, erklärung, keyword_array, kommentar_array, stapelId) {
+    console.log(stapelId);
     return db.collection('flashcards').insertOne({
         begriff: begriff,
         erklärung: erklärung,
@@ -166,6 +167,56 @@ async function updateLernstatus(flashcardId, lernstatus) {
     });
 }
 
+async function getStats(accountID) {
+    // count lernstatus
+    return new Promise((resolve, reject) => {
+        db.collection('flashcards').aggregate([
+            {
+                '$lookup': {
+                    'from': 'stapel',
+                    'localField': 'stapelID',
+                    'foreignField': '_id',
+                    'as': 'Stapel'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$Stapel'
+                }
+            }, {
+                '$lookup': {
+                    'from': 'rubrik',
+                    'localField': 'Stapel.rubrikId',
+                    'foreignField': '_id',
+                    'as': 'Rubrik'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$Rubrik'
+                }
+            }, {
+                '$match': {
+                    'Rubrik.ownerId': accountID
+                }
+            }, {
+                '$group': {
+                    '_id': '$lernstatus',
+                    'count': {
+                        '$sum': 1
+                    }
+                }
+            }
+        ]).toArray().then(result => {
+            // 0 = noch zu lernen, 1 = hab's drauf, -1 = kann's nicht
+            const stats = {
+                "noch zu lernen": result.find(x => x._id === 0).count,
+                "hab's drauf": result.find(x => x._id === 1).count,
+                "kann's nicht": result.find(x => x._id === -1).count
+            };
+            resolve(stats);
+        }).catch(reject);
+    });
+}
+
 
 
 module.exports = {
@@ -186,5 +237,6 @@ module.exports = {
     getFlashcards,
     getAllFlashcards,
 
-    updateLernstatus
+    updateLernstatus,
+    getStats
 }

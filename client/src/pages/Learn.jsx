@@ -21,6 +21,7 @@ export default function Learn({ rubrik, stapel, keyword }) {
   }, [])
   
   async function getFlashcards() {
+    //TODO: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
     return new Promise((resolve, reject) => {
       axios.get(`http://localhost:3001/getFlashCards`, {
         params: {
