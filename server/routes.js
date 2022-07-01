@@ -1,7 +1,5 @@
 const router = require('express').Router();
 const authenticator = require('./Authenticator');
-const accountManager = require('./AccountManager');
-
 const database = require('./Database');
 
 
@@ -39,7 +37,7 @@ router.post('/register', async (req, res) => {
 
 router.route('/accountData')
   .get(async (req, res) => {
-    const account = await accountManager.getAccount(req.account.id);
+    const account = await database.getAccount(req.account.id);
     res.json({
       email: account.email,
       username: account.username,
@@ -49,7 +47,7 @@ router.route('/accountData')
   .post(async (req, res) => {
     const { email, username, avatar } = req.body;
     try {
-      await accountManager.updateAccount(req.account.id, email, username, avatar);
+      await database.updateAccount(req.account.id, email, username, avatar);
       res.json({
         message: "Account updated"
       });
@@ -95,7 +93,7 @@ router.get('/getFlashCards', async (req, res) => {
     console.log("getFlashCards");
     console.log(query);
     query = {}; //FIXME: debug only
-    const flashcards = await accountManager.getFlashcards(query);
+    const flashcards = await database.getFlashcards(query);
     console.log(flashcards);
     res.json(flashcards);
   } catch (error) {
