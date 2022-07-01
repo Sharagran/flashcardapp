@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Recorder } from 'react-voice-recorder'
 import 'react-voice-recorder/dist/index.css'
 
-export default function VoiceRecorder() {
+export default function VoiceRecorder({ setFiles, upload }) {
     const [audioDetails, setAudioDetails] = useState({
         url: null,
         blob: null,
@@ -16,17 +16,28 @@ export default function VoiceRecorder() {
         }
     });
 
-    function handleAudioStop(data){
-        console.log(data)
-        setAudioDetails(data)
+    function handleAudioStop(data) {
+        console.log(data);
+        setAudioDetails(data);
+        prepareUpload(data.blob);
     }
 
     function handleAudioUpload(file) {
         console.log(file);
+        prepareUpload(file);
+        upload();
     }
 
-    function handleCountDown(data) {
-        console.log(data);
+    function prepareUpload(file) {
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();
+        var dateTime = date + "@" + time;
+
+        setFiles([{
+            blob: file,
+            name: dateTime + '.webm'
+        }]);
     }
 
     function handleReset() {
@@ -51,7 +62,6 @@ export default function VoiceRecorder() {
                 showUIAudio
                 handleAudioStop={data => handleAudioStop(data)}
                 handleAudioUpload={data => handleAudioUpload(data)}
-                handleCountDown={data => handleCountDown(data)}
                 handleReset={() => handleReset()}
                 mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
             />

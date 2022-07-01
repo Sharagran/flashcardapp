@@ -44,7 +44,7 @@ export default function Upload() {
             </div>
             <div className='center'>
                 {uploadOption === 'camera' && <Camera setFiles={setFiles} />}
-                {uploadOption === 'voice' && <VoiceRecorder setFiles={setFiles} />}
+                {uploadOption === 'voice' && <VoiceRecorder setFiles={setFiles} upload={upload} />}
                 {uploadOption === 'file' && <FileUpload setFiles={setFiles} />}
             </div>
         </>
