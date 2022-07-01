@@ -6,9 +6,14 @@ import { TagInput } from 'reactjs-tag-input'
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+
+
 
 
 export default function Create() {
+    const navigate = useNavigate();
+
     const [rubrik, setRubrik] = useState({});
     const [stapel, setStapel] = useState({});
     const [keyword_array, setKeyword_array] = useState([]);
@@ -19,8 +24,24 @@ export default function Create() {
 
     useEffect(() => {
         getRubriken().then(rubriken => {
+            console.log(rubriken);
+            if (rubriken.length === 0) {
+                toast.error('Es wurden noch keine Rubriken angelegt. Bitte erstellen Sie zuerst eine Rubrik damit Sie diese Funktion nutzen können.');
+                navigate(-1);
+                return;
+            }
             setRubrikList(rubriken);
             setRubrik(rubriken[0]);
+
+            getStapel(rubriken[0]._id).then(stapel => {
+                if (stapel.length === 0) {
+                    toast.error('Es wurden noch keine Stapel angelegt. Bitte erstellen Sie zuerst einen Stapel damit Sie diese Funktion nutzen können.');
+                    navigate(-1);
+                    return;
+                }
+                setStapelList(stapel);
+                setStapel(stapel[0]);
+            });
         }).catch(toast.error);
     }, [])
 
