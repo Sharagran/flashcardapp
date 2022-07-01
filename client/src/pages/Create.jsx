@@ -138,7 +138,7 @@ export default function Create() {
                          transform: none;
                          margin-bottom: 32px;
                          `} />
-                    <button type="submit">Create</button>
+                    <button className='myInput' type="submit">Create</button>
                 </div>
 
             </form>
