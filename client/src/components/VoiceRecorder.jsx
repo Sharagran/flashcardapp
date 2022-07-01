@@ -17,13 +17,11 @@ export default function VoiceRecorder({ setFiles, upload }) {
     });
 
     function handleAudioStop(data) {
-        console.log(data);
         setAudioDetails(data);
         prepareUpload(data.blob);
     }
 
     function handleAudioUpload(file) {
-        console.log(file);
         prepareUpload(file);
         upload();
     }
