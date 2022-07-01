@@ -210,17 +210,19 @@ router.post('/upload', async (req, res) => {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const path = `${__dirname}/uploads/${req.account.id}/${file.name}`;
-    console.log(path);
+
     file.mv(path, function (err) {
-      console.log(err);
-      return res.status(500).json({
-        error: err
-      });
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          error: err
+        });
+      }
     });
   }
 
   res.json({
-    message: "File uploaded!"
+    message: "File(s) uploaded!"
   });
 
 });
