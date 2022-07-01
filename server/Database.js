@@ -100,19 +100,20 @@ async function getUniqueFlashcardFields(accountid, field) {
 
 async function getAllRubriken(accountID) {
     return db.collection('rubrik').find({
-        ownerId: accountID
+        ownerId: ObjectId(accountID)
     }).toArray();
 }
 
 async function getAllStapel(rubrikId) {
     return db.collection('stapel').find({
-        rubrikId: rubrikId
+        rubrikId: ObjectId(rubrikId)
     }).toArray();
 }
 
+// TODO: better naming
 async function getAllFlashcards(stapelId) {
     return db.collection('flashcards').find({
-        stapelID: stapelId
+        stapelID: ObjectId(stapelId)
     }).toArray();
 }
 
@@ -173,7 +174,9 @@ module.exports = {
     addFlashcard,
 
     getFlashcards,
-    getUniqueFlashcardFields,
+    getUniqueFlashcardFields, //FIXME: uhnötig?
+
     getAllRubriken,
+    getAllStapel,
     getAllKeywords
 }

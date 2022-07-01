@@ -2,7 +2,7 @@ const router = require('express').Router();
 const authenticator = require('./Authenticator');
 const accountManager = require('./AccountManager');
 
-const Database = require('./Database');
+const database = require('./Database');
 
 
 //TODO: fix error codes
@@ -81,7 +81,7 @@ router.post('/create', async (req, res) => {
 
 router.get('/getFlashCards', async (req, res) => {
   const { rubrik, stapel, keyword } = req.query;
-  var query;
+  var query = {};
   if (rubrik) {
     query = { rubrik: rubrik };
   } else if (stapel) {
@@ -92,7 +92,10 @@ router.get('/getFlashCards', async (req, res) => {
   query.creatorId = req.account.id;
 
   try {
+    console.log(query);
+    query = {}; //FIXME: debug only
     const flashcards = await accountManager.getFlashcards(query);
+    console.log(flashcards);
     res.json(flashcards);
   } catch (error) {
     console.log(error);
@@ -104,6 +107,7 @@ router.get('/getFlashCards', async (req, res) => {
 });
 
 router.get('/getFields', async (req, res) => {
+  //TODO: remove this route
   try {
     const fields = await accountManager.getFields(req.account.id, ['rubrik', 'stapel', 'keyword_array']);
     res.json(fields);
@@ -114,6 +118,49 @@ router.get('/getFields', async (req, res) => {
     });
   }
 });
+
+
+router.get('/getRubriken', async (req, res) => {
+  try {
+    // const rubriken = await database.getAllRubriken("req.account.id");	
+    const rubriken = await database.getAllRubriken("testID");
+    console.log(rubriken);
+    res.json(rubriken);
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
+
+router.get('/getStapel', async (req, res) => {
+  const { rubrik } = req.query;
+  try {
+    const stapel = await database.getAllStapel(rubrik);
+    res.json(stapel);
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
+
+router.get('/getKeywords', async (req, res) => {
+  try {
+    const keywords = await database.getAllKeywords("testID2");
+    console.log(keywords);
+    res.json(keywords);
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
+
+
 
 router.get('/test', async (req, res) => {
   // Database.addRubrik('testrubrik2', 'testID2').then(result => {
@@ -126,7 +173,7 @@ router.get('/test', async (req, res) => {
   //   res.json(result);
   // });
 
-  // Database.addFlashcard('testBegriff3', 'testErklärung', ['testkeyword'], ['testcomment'], '62be34bc92c3557bc322a151').then(result => {
+  // Database.addFlashcard('testBegriff3', 'testErklärung', ['testkeyword', "key", 'lol'], ['testcomment'], '62be34bc92c3557bc322a151').then(result => {
   //   console.log(result);
   //   res.json(result);
   // });

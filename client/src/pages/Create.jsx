@@ -9,8 +9,8 @@ import { useEffect } from 'react';
 
 
 export default function Create() {
-    const [rubrik, setRubrik] = useState('');
-    const [stapel, setStapel] = useState('');
+    const [rubrik, setRubrik] = useState({});
+    const [stapel, setStapel] = useState({});
     const [keyword_array, setKeyword_array] = useState([]);
     const [kommentar_array, setKommentar_array] = useState([]);
 
@@ -18,12 +18,9 @@ export default function Create() {
     const [stapelList, setStapelList] = useState([]);
 
     useEffect(() => {
-        getFields().then(data => {
-            setRubrikList(data.rubrik);
-            setStapelList(data.stapel);
-
-            setRubrik(data.rubrik[0]);
-            setStapel(data.stapel[0]);
+        getRubriken().then(rubriken => {
+            setRubrikList(rubriken);
+            setRubrik(rubriken[0]);
         });
     }, [])
 
@@ -70,6 +67,15 @@ export default function Create() {
         }
     }
 
+    function rubrikChanged(e) {
+        const rubrik = rubrikList.find(rubrik => rubrik._id === e.target.value)
+        setRubrik(rubrik);
+        getStapel(rubrik._id).then(stapel => {
+            setStapelList(stapel);
+            setStapel(stapel[0]);
+        });
+    }
+
     function clearInputs() {
         const begriff = document.querySelector('.begriff');
         const erklärung = document.querySelector('.erklärung');
@@ -83,9 +89,19 @@ export default function Create() {
         setKommentar_array([]);
     }
 
-    function getFields() {
+    async function getRubriken() {
         return new Promise((resolve, reject) => {
-            axios.get('http://localhost:3001/getFields').then(res => {
+            axios.get('http://localhost:3001/getRubriken').then(res => {
+                resolve(res.data);
+            }).catch(err => {
+                reject(err.response.data.error);
+            });
+        });
+    }
+
+    async function getStapel(rubrik) {
+        return new Promise((resolve, reject) => {
+            axios.get('http://localhost:3001/getStapel/?rubrik=' + rubrik).then(res => {
                 resolve(res.data);
             }).catch(err => {
                 reject(err.response.data.error);
@@ -105,14 +121,14 @@ export default function Create() {
                     </div>
                     <div className="myInputWrapper">
                         <label>Rubrik:</label>
-                        <select className='myInput' value={rubrik} onChange={(e) => setRubrik(e.target.value)}>
-                            {rubrikList.map(rubrik => <option key={rubrik} value={rubrik}>{rubrik}</option>)}
+                        <select className='myInput' value={rubrik._id} onChange={rubrikChanged}>
+                            {rubrikList.map(rubrik => <option key={rubrik._id} value={rubrik._id}>{rubrik.name}</option>)}
                         </select>
                     </div>
                     <div className="myInputWrapper">
-                        <label>Stapel {rubrik}:</label>
-                        <select className='myInput' value={stapel} onChange={(e) => setStapel(e.target.value)}>
-                            {stapelList.map(stapel => <option key={stapel} value={stapel}>{stapel}</option>)}
+                        <label>Stapel {rubrik.name}:</label>
+                        <select className='myInput' value={stapel._id} onChange={(e) => setStapel(e.target.value)}>
+                            {stapelList.map(stapel => <option key={stapel._id} value={stapel._id}>{stapel.name}</option>)}
                         </select>
                     </div>
                     <TagInput tags={keyword_array} onTagsChanged={(tags) => setKeyword_array(tags)} placeholder="Keywords"
