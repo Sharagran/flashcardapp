@@ -25,3 +25,8 @@
     
         text-align: center;
 }
+
+#view a:hover .category {
+    background-color: lightgray;
+    color: black;
+}

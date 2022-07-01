@@ -67,9 +67,9 @@ export default function View() {
             <div>
                 <h2>Rubriken</h2>
                 <div className='categoryContainer'>
-                    <div className='category'>
-                        <Link to='/add/rubrik'>Neue Rubrik</Link>
-                    </div>
+                    <Link to='/add/rubrik'>
+                        <div className='category'>Neue Rubrik</div>
+                    </Link>
                     {rubrikList.map(rubrik => {
                         return <Link key={rubrik._id} to={`/learn/rubrik/${rubrik.name}`}><div className='category'>{rubrik.name}</div></Link>
                     })}
@@ -79,9 +79,9 @@ export default function View() {
             <div>
                 <h2>Stapel</h2>
                 <div className='categoryContainer'>
-                    <div className='category'>
-                        <Link to='/add/stapel'>Neuer Stapel</Link>
-                    </div>
+                    <Link to='/add/stapel'>
+                        <div className='category'>Neuer Stapel</div>
+                    </Link>
                     {stapelList.map(stapel => {
                         return <Link key={stapel} to={`/learn/stapel/${stapel}`}><div className='category'>{stapel}</div></Link>
                     })}
@@ -98,9 +98,9 @@ export default function View() {
             <div>
                 <h2>Flashcards</h2>
                 <div className='categoryContainer'>
-                    <div className='category'>
-                        <Link to='/add/flashcard'>Neue Flashcard</Link>
-                    </div>
+                    <Link to='/add/flashcard'>
+                        <div className='category'>Neue Flashcard</div>
+                    </Link>
                     {flashcards.map(flashcard => {
                         return <Link key={flashcard._id} to={`/learn/flashcard/${flashcard.begriff}`}><div className='category'>{flashcard.begriff}</div></Link>
                     })

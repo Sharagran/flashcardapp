@@ -53,8 +53,7 @@ export default function Account() {
   }, []);
 
   return (
-    <div>
-      <h2>Account</h2>
+    <>
       <form onSubmit={updateAccountData}>
         <label htmlFor="email">Email: </label>
         <div className="myInputWrapper">
@@ -71,6 +70,6 @@ export default function Account() {
         <br /> */}
         <button className='myInput' type="submit">Submit</button>
       </form>
-    </div>
+    </>
   )
 }

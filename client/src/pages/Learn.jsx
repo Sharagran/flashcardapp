@@ -48,12 +48,11 @@ export default function Learn({ rubrik, stapel, keyword }) {
   }
 
   async function setLernstatus(lernStatus) {
-    console.log(flashcardList[flashcardIndex]);
     axios.post(`http://localhost:3001/setLernstatus`, {
       id: flashcardList[flashcardIndex]._id,
       lernStatus: lernStatus
     }).then(res => {
-      console.log(res.data);
+      toast.success(res.data.message);
       nextFlashcard();
     }).catch(err => {
       toast.error(err.response.data.error);
@@ -70,7 +69,6 @@ export default function Learn({ rubrik, stapel, keyword }) {
 
   return (
     <div className='center'>
-      <h2>Learn</h2>
       <Flashcard
         rubrik={flashcardList[flashcardIndex].rubrik}
         begriff={flashcardList[flashcardIndex].begriff}
@@ -78,12 +76,12 @@ export default function Learn({ rubrik, stapel, keyword }) {
         lernStatus={flashcardList[flashcardIndex].lernStatus}
       />
       <div>
-        <button onClick={() => {setLernstatus(-1)}}>Kann's nicht</button>
-        <button onClick={nextFlashcard}>Überspringen</button>
-        <button onClick={() => {setLernstatus(1)}}>Hab's drauf</button>
+        <button className='myInput' onClick={() => {setLernstatus(-1)}}>Kann's nicht</button>
+        <button className='myInput' onClick={nextFlashcard}>Überspringen</button>
+        <button className='myInput' onClick={() => {setLernstatus(1)}}>Hab's drauf</button>
         <br />
         {/* nicht sicher bei folgenden funktionen */}
-        <button onClick={teilen}>Teilen</button>
+        <button className='myInput' onClick={teilen}>Teilen</button>
       </div>
     </div>
   )

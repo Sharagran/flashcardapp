@@ -130,7 +130,6 @@ export default function Create() {
 
     return (
         <div id='create'>
-            <h2>Create</h2>
             <form onSubmit={createFlashcard} onKeyDown={formKeyDown}>
                 <div className='center myInputContainer'>
                     <div className='center' style={{

@@ -88,7 +88,7 @@ export default function Add() {
   </div>
 
   return (
-    <div>
+    <>
       <h2>{headings[id]}</h2>
       <form onSubmit={handleSubmit}>
         {id === 'stapel' && rubrikInput}
@@ -98,6 +98,6 @@ export default function Add() {
         </div>
         <button className='myInput' type="submit">create</button>
       </form>
-    </div>
+    </>
   )
 }

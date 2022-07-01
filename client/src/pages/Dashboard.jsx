@@ -7,9 +7,7 @@ import { PieChart } from 'react-minimal-pie-chart';
 
 export default function Dashboard() {
   return (
-    <div>
-      <h1>Dashboard</h1>
-      
+    <>
       <div style={{
         height: "300px"
       }}>
@@ -21,6 +19,6 @@ export default function Dashboard() {
           ]}
         />
       </div>
-    </div>
+    </>
   )
 }
