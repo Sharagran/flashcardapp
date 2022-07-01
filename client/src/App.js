@@ -7,10 +7,10 @@ import Account from './pages/Account';
 import Dashboard from './pages/Dashboard';
 import Files from './pages/Files';
 import Login from './pages/Login';
-import Create from './pages/Create';
 import Learn from './pages/Learn';
 import View from './pages/View';
 import Add from './pages/Add';
+import Upload from './pages/Upload';
 
 import useToken from './components/useToken';
 import Navbar from './components/Navbar';
@@ -33,6 +33,7 @@ function App() {
       <Route path="/learn/:id" element={<Dashboard />}></Route>
 
 
+      <Route path="/upload" element={<Upload />}></Route>
       <Route path="/account" element={<Account />}></Route>
       {/* <Route path="/files" element={<Files />}></Route> */}
     </Routes>

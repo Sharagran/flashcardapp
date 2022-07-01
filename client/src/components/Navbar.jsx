@@ -11,6 +11,7 @@ export default function Navbar() {
                 <li><NavLink to="/view">View</NavLink></li>
                 <li><NavLink to="/add/flashcard">Create</NavLink></li>
                 <li><NavLink to="/learn">Learn</NavLink></li>
+                <li><NavLink to="/upload">Upload</NavLink></li>
                 <li><NavLink to="/account">Account</NavLink></li>
             </ul>
         </div>
