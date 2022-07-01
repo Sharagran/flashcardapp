@@ -40,7 +40,7 @@ export default function Upload() {
                 <button className='myInput' onClick={() => setUploadOption('camera')}>Photo</button>
                 <button className='myInput' onClick={() => setUploadOption('voice')}>Voice</button>
                 <button className='myInput' onClick={() => setUploadOption('file')}>File</button>
-                <button className='myInput'onClick={upload}>Upload</button>
+                <button className='myInput' onClick={upload} disabled={files.length===0}>Upload</button>
             </div>
             <div className='center'>
                 {uploadOption === 'camera' && <Camera setFiles={setFiles} />}

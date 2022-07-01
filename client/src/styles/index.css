@@ -67,6 +67,18 @@ input[type='submit'].myInput:hover, button.myInput:hover {
   transition: 0.3s;
 }
 
+.myInput:disabled {
+  background: #F1F3F4;
+  color: #E0E0E0;
+}
+
+.myInput:disabled:hover {
+  color: #E0E0E0;
+  background-color: #F1F3F4;
+
+  cursor: initial;
+}
+
 a {
   text-decoration: none;
   color: #69626D;
