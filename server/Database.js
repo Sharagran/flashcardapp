@@ -167,9 +167,10 @@ module.exports = {
     addStapel,
     addFlashcard,
 
-    getFlashcards,
-
     getAllRubriken,
     getAllStapel,
-    getAllKeywords
+    getAllKeywords,
+
+    getFlashcards,
+    getAllFlashcards
 }

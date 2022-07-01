@@ -26,3 +26,5 @@ module.exports = {
     addFlashcard,
     getFlashcards
 }
+
+//TODO: remove accountManager file and use db directly
