@@ -61,7 +61,6 @@ export default function Add() {
     }
   }
 
-  //FIXME: empty rubrik crashes app (always create a stapel when creating rubrik)
   function createRubrik() {
     axios.post('http://localhost:3001/createRubrik', {
       name: textfieldValue,

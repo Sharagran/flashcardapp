@@ -39,12 +39,11 @@ export default function Learn({ rubrik, stapel, keyword }) {
     });
   }
 
-  // TODO: zufällige Flashcards auswählen
   function nextFlashcard() {
     if (flashcardIndex < flashcardList.length - 1) {
       setFlashCardIndex(flashcardIndex + 1);
     } else {
-      toast(`Keine weiteren Flashcards ${rubrik ? `in der Rubrik ${rubrik}` : stapel ? `in dem Stapel ${stapel}` : `mit dem keyword ${keyword}`}`, {
+      toast(`Keine weiteren Flashcards ${rubrik ? `in der Rubrik ${rubrik}` : stapel ? `in dem Stapel ${stapel}` : keyword ? `mit dem keyword ${keyword}` : ``}`, {
         icon: '❕'
       });
     }
