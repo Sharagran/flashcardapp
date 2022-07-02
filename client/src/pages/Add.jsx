@@ -23,11 +23,18 @@ export default function Add() {
   const [rubrik, setRubrik] = useState({});
 
   useEffect(() => {
-    getRubriken().then(rubriken => {
-      setRubrikList(rubriken);
-      setRubrik(rubriken[0]);
-    }).catch(toast.error);
-  }, [])
+    if (id === 'stapel') {
+      getRubriken().then(rubriken => {
+        if(rubriken.length > 0) {
+        setRubrikList(rubriken);
+        setRubrik(rubriken[0]);
+        } else {
+          toast.error('Es wurde keine Rubrik gefunden. Bitte erstellen Sie zuerst eine Rubrik.');
+          navigate(-1);
+        }
+      }).catch(toast.error);
+    }
+  }, []);
 
 
   async function getRubriken() {
