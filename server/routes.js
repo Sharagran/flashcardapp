@@ -273,7 +273,10 @@ router.post('/share', async (req, res) => {
     const share = await database.shareFlashcard(id, email, expires, deleteAfter);
 
     const shareLink = `http://localhost:3000/share/${share.insertedId}`;
-    sendShareLink(email, shareLink);
+    if (email) {
+      sendShareLink(email, shareLink);
+      console.log("Email sent");
+    }
 
     res.json({
       message: "Flashcard shared!",
@@ -291,6 +294,11 @@ router.get('/share', async (req, res) => {
   const { shareId } = req.query;
   try {
     const share = await database.getShare(shareId);
+    if (share == null) {
+      return res.status(401).json({
+        error: "Share not found!"
+      });
+    }
     const expires = new Date(share.expires);
     const now = new Date();
     if (now >= expires) {
@@ -315,16 +323,26 @@ router.post('/confirmShareDownload', async (req, res) => {
   try {
     const share = await database.getShare(id);
     const flashcardId = share.flashcardId;
-    const shares = await database.getShares(flashcardId);
 
-    if (shares.length === 0) {
-      await database.deleteFlashcard(flashcardId);
-      res.json({
-        message: "Flashcard deleted!"
-      });
+    if (share.deleteAfter) {
+      await database.deleteShare(id);
+      console.log("Share deleted!");
+
+      const shares = await database.getShares(flashcardId);
+
+      if (shares.length === 0) {
+        await database.deleteFlashcard(flashcardId);
+        res.json({
+          message: "Flashcard deleted!"
+        });
+      } else {
+        res.json({
+          message: "Flashcard not deleted!"
+        });
+      }
     } else {
       res.json({
-        message: "Flashcard not deleted!"
+        message: "Share & Flashcard not deleted!"
       });
     }
   } catch (error) {

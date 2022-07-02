@@ -78,7 +78,14 @@ export default function Share() {
     }
 
     function confirmDownload() {
-        
+        const shareId = window.location.pathname.split('/')[2];
+        axios.post('http://localhost:3001/confirmShareDownload', {
+            id: shareId
+        }).then(res => {
+            console.log(res.data);
+        }).catch(err => {
+            console.log(err.response.data.error);
+        });
     }
 
     useEffect(() => {
@@ -89,8 +96,10 @@ export default function Share() {
             }
         }).then(response => {
             setFlashcardData(response.data);
-        }).catch(error => {
-            console.log(error);
+        }).catch(error => { // share not found
+            console.log(error.response.data.error);
+            // go to start page
+            window.location.href = '/';
         });
     }, []);
 

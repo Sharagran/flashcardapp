@@ -49,7 +49,7 @@ export default function Share({ flashcardId, setRenderTeilenUI }) {
             width: '50%',
         }}>
             <form onSubmit={handleSubmit}>
-                <input className='myInput' type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                <input className='myInput' type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <input className='myInput' type="date" value={expires} onChange={(e) => setExpires(e.target.value)} min={getMinDate()} required></input>
                 <input className='myInput' type="checkbox" checked={deleteAfter} onChange={() => setDeleteAfter(!deleteAfter)} />
                 <button className='myInput' type='submit'>Teilen bestätigen</button>

@@ -89,6 +89,12 @@ async function addFlashcard(begriff, erklärung, keyword_array, kommentar_array,
     });
 }
 
+async function deleteFlashcard(id) {
+    return db.collection('flashcards').deleteOne({
+        _id: ObjectId(id)
+    });
+}
+
 async function getFlashcard(id) {
     return db.collection('flashcards').findOne({
         _id: ObjectId(id)
@@ -271,6 +277,7 @@ module.exports = {
     addRubrik,
     addStapel,
     addFlashcard,
+    deleteFlashcard,
 
     getAllRubriken,
     getAllStapel,

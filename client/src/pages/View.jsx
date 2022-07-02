@@ -107,6 +107,13 @@ export default function View() {
                     }
                 </div>
             </div>
+            <div>
+                <h2>Dateien</h2>
+                <div className='categoryContainer'>
+                    {/* TODO: */}
+                    {}
+                </div>
+            </div>
         </div>
     )
 }
