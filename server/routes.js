@@ -39,7 +39,9 @@ router.post('/register', async (req, res) => {
 
 router.route('/accountData')
   .get(async (req, res) => {
-    const account = await database.getAccount(req.account.id);
+    const account = await database.getAccount({
+      id: req.account.id
+    });
     res.json({
       email: account.email,
       username: account.username,

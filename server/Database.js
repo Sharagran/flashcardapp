@@ -43,10 +43,8 @@ async function addAccount(id, email, username, password) {
     });
 }
 
-async function getAccount(accountId) {
-    const matchQuery = matchAny({
-        id: accountId
-    });
+async function getAccount(query) {
+    const matchQuery = matchAny(query);
     return db.collection('accounts').findOne(matchQuery);
 }
 
