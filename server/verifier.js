@@ -1,23 +1,7 @@
 const authenticator = require('./Authenticator');
 
-module.exports = jwt_verifier;
+module.exports = authenticate;
 
-
-function jwt_verifier(exluded_urls) {
-    if (!Array.isArray(exluded_urls)) {
-        throw new Error("verifier can only have an array as parameter");
-    }
-
-    return function (req, res, next) {
-        if (exluded_urls.includes(req.originalUrl)) {
-            console.log("skip verifier for " + req.url);
-            return next();
-        } else {
-            return authenticate(req, res, next);
-        }
-    }
-
-}
 
 function authenticate(req, res, next) {
     const authHeader = req.headers.authorization;
@@ -38,9 +22,7 @@ function authenticate(req, res, next) {
 
             req.account = decoded;
             next();
-        }
-        );
-
+        });
     } else {
         console.log('No token specified');
         //TODO: Send user to login page?

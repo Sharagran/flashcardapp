@@ -12,11 +12,6 @@ app.use(bodyparser.json());
 app.use(cors());
 app.use(fileUpload());
 
-// public routes which don't require authentication
-const excluded_urls = [
-    '/',
-    '/login' // nur login da das jede anfrage ist die der server bekommt (und files?)
-];
 
 //FIXME: dbug only
 app.use((req, res, next) => {
@@ -24,7 +19,7 @@ app.use((req, res, next) => {
     console.log(`${req.method} ${req.originalUrl}`);
     next();
 });
-app.use(verifier(excluded_urls));
+app.use(verifier);
 app.use(routes);
 
 app.listen(3001, () => {
