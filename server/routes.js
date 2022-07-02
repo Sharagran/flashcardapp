@@ -244,6 +244,70 @@ router.post('/upload', async (req, res) => {
 
 });
 
+router.post('/share', async (req, res) => {
+  const { id, email, expires, deleteAfter } = req.body;
+  try {
+    await database.shareFlashcard(id, email, expires, deleteAfter);
+
+    //TODO: send email
+
+    res.json({
+      message: "Flashcard shared!"
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
+
+router.get('/share', async (req, res) => {
+  const { id } = req.query;
+  try {
+    const share = await database.getShare(id);
+    const expires = new Date(share.expires);
+    const now = new Date();
+    if (now >= expires) {
+      await database.deleteShare(id);
+      res.json({
+        message: "Share expired!"
+      });
+    } else {
+      res.json(share);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
+
+router.post('/confirmShareDownload', async (req, res) => {
+  const { id } = req.body;
+  try {
+    const share = await database.getShare(id);
+    const flashcardId = share.flashcardId;
+    const shares = await database.getShares(flashcardId);
+
+    if (shares.length === 0) {
+      await database.deleteFlashcard(flashcardId);
+      res.json({
+        message: "Flashcard deleted!"
+      });
+    } else {
+      res.json({
+        message: "Flashcard not deleted!"
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+});
 
 router.get('/test', async (req, res) => {
   // Database.getAllRubriken().then(result => {

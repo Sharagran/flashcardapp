@@ -217,6 +217,33 @@ async function getStats(accountID) {
     });
 }
 
+async function shareFlashcard(id, email, expires, deleteAfter) {
+    return db.collection('shared').insertOne({
+        flashcardId: ObjectId(id),
+        email: email,
+        expires: expires,
+        deleteAfter: deleteAfter
+    });
+}
+
+async function deleteShare(id) {
+    return db.collection('shared').deleteOne({
+        _id: ObjectId(id)
+    });
+}
+
+async function getShare(id) {
+    return db.collection('shared').findOne({
+        _id: ObjectId(id)
+    });
+}
+
+async function getShares(flashcardId) {
+    return db.collection('shared').find({
+        flashcardId: ObjectId(flashcardId)
+    }).toArray();
+}
+
 
 
 module.exports = {
@@ -238,5 +265,10 @@ module.exports = {
     getAllFlashcards,
 
     updateLernstatus,
-    getStats
+    getStats,
+
+    shareFlashcard,
+    getShare,
+    deleteShare,
+    getShares
 }
