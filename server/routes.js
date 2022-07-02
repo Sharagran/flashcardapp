@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const authenticator = require('./Authenticator');
 const database = require('./Database');
+const nodemailer = require("nodemailer");
 
 const fs = require('fs');
 
@@ -247,12 +248,32 @@ router.post('/upload', async (req, res) => {
 
 });
 
+function sendShareLink(receiver, shareLink) {
+  const transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: 'flashcardapp.krause@gmail.com', pass: 'dhyipkuouefdqukc' }, });
+  var mailOptions = {
+    from: 'flashcardapp.krause@gmail.com',
+    to: receiver,
+    subject: 'Eine Flashcard wurde mit ihnen geteilt',
+    text: "Hier der Link zur flashcard: " + shareLink
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.error(error.stack);
+      throw error;
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
 router.post('/share', async (req, res) => {
   const { id, email, expires, deleteAfter } = req.body;
   try {
     const share = await database.shareFlashcard(id, email, expires, deleteAfter);
 
-    //TODO: send email
+    const shareLink = `http://localhost:3000/share/${share.insertedId}`;
+    sendShareLink(email, shareLink);
 
     res.json({
       message: "Flashcard shared!",
