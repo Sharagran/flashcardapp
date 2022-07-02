@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Learn from './Learn';
 
+import File from '../components/File';
+
 import '../styles/view.css'
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -12,6 +14,7 @@ export default function View() {
     const [rubrikList, setRubrikList] = useState([]);
     const [stapelList, setStapelList] = useState([]); //TODO: stapel auslagern
     const [keywordList, setKeywordList] = useState([]);
+    const [fileList, setFileList] = useState([]);
     const [flashcards, setFlashcards] = useState([]);
 
     async function getRubriken() {
@@ -46,6 +49,16 @@ export default function View() {
         });
     }
 
+    async function getFiles() {
+        return new Promise((resolve, reject) => {
+            axios.get('http://localhost:3001/getFiles').then(res => {
+                resolve(res.data);
+            }).catch(err => {
+                reject(err.response.data.error);
+            });
+        });
+    }
+
 
     useEffect(() => {
         getRubriken().then(rubriken => {
@@ -60,6 +73,9 @@ export default function View() {
             setFlashcards(flashcards);
         }).catch(toast.error);
 
+        getFiles().then(files => {
+            setFileList(files);
+        }).catch(toast.error);
     }, [])
 
     return (
@@ -110,8 +126,9 @@ export default function View() {
             <div>
                 <h2>Dateien</h2>
                 <div className='categoryContainer'>
-                    {/* TODO: */}
-                    {}
+                    {fileList.map(file => {
+                        return <a key={file} href="#"><File Filename={file} /></a>
+                    })}
                 </div>
             </div>
         </div>

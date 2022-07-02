@@ -353,17 +353,23 @@ router.post('/confirmShareDownload', async (req, res) => {
   }
 });
 
-router.get('/test', async (req, res) => {
-  // Database.getAllRubriken().then(result => {
-  //   console.log(result);
-  //   res.json(result);
-  // });
+router.get('/getFiles', async (req, res) => {
+  const accountId = req.account.id;
+  // check if directory exists
+  if (fs.existsSync(`./uploads/${accountId}`)) {
+    const files = fs.readdirSync(`./uploads/${accountId}`);
+    console.log(files);
+    res.json(files);
+  } else {
+    res.json([]);
+  }
+});
 
-  Database.getAllKeywords("testID2").then(result => {
-    console.log(result);
-    res.json(result);
-  });
-
+router.get('/getFile', async (req, res) => {
+  const { Filename } = req.query;
+  const accountId = req.account.id;
+  const file = `./uploads/${accountId}/${Filename}`;
+  res.download(file);
 });
 
 
