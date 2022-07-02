@@ -22,6 +22,7 @@ export default function Learn({ rubrik, stapel, keyword }) {
     });
   }, [])
 
+  //TODO: change query & serverside route function
   async function getFlashcards() {
     //TODO: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
     return new Promise((resolve, reject) => {
