@@ -247,12 +247,13 @@ router.post('/upload', async (req, res) => {
 router.post('/share', async (req, res) => {
   const { id, email, expires, deleteAfter } = req.body;
   try {
-    await database.shareFlashcard(id, email, expires, deleteAfter);
+    const share = await database.shareFlashcard(id, email, expires, deleteAfter);
 
     //TODO: send email
 
     res.json({
-      message: "Flashcard shared!"
+      message: "Flashcard shared!",
+      shareId: share.insertedId
     });
   } catch (error) {
     console.log(error);

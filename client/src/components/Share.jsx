@@ -23,6 +23,16 @@ export default function Share({ flashcardId, setRenderTeilenUI }) {
             deleteAfter: deleteAfter
         }).then(res => {
             toast.success(res.data.message);
+            const host = window.location.host;
+            const shareLink = `http://${host}/share/${res.data.shareId}`;
+            navigator.clipboard.writeText(shareLink).then(() => {
+                toast.success('Link wurde in die Zwischenablage kopiert');
+            }).catch(err => {
+                toast.error('Link konnte nicht in die Zwischenablage kopiert werden. Siehe Konsole für Details');
+                console.log(err);
+                console.log(shareLink);
+            });
+
             setRenderTeilenUI(false);
         }).catch(err => {
             toast.error(err.response.data.error);
