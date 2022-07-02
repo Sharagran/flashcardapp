@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import '../styles/Flashcard.css'
 
 // lernstatus: 0 = noch zu lernen, 1 = hab's drauf, -1 = kann's nicht
-export default function Flashcard({begriff, erklärung, rubrik, stapel, lernStatus, keyword_array = [], kommentar_array = [], editable = false}) {
+export default function Flashcard({begriff, erklärung, editable = false}) {
   const [flipped, setFlipped] = useState(false);
 
   return (
