@@ -274,7 +274,8 @@ router.get('/share', async (req, res) => {
         message: "Share expired!"
       });
     } else {
-      res.json(share);
+      const flashcard = await database.getFlashcard(id);
+      res.json(flashcard);
     }
   } catch (error) {
     console.log(error);
