@@ -5,13 +5,15 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 import Flashcard from '../components/Flashcard'
+import Share from '../components/Share';
 import '../styles/Learn.css';
-import toast from 'react-hot-toast';
+import {toast} from 'react-hot-toast';
 
 
 export default function Learn({ rubrik, stapel, keyword }) {
   const [flashcardList, setFlashcards] = useState([{}]);
   const [flashcardIndex, setFlashCardIndex] = useState(0);
+  const [renderTeilenUI, setRenderTeilenUI] = useState(false);
 
   useEffect(() => {
     getFlashcards().then(flashcards => {
@@ -19,7 +21,7 @@ export default function Learn({ rubrik, stapel, keyword }) {
       console.log(flashcards);
     });
   }, [])
-  
+
   async function getFlashcards() {
     //TODO: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
     return new Promise((resolve, reject) => {
@@ -44,7 +46,7 @@ export default function Learn({ rubrik, stapel, keyword }) {
     } else {
       toast(`Keine weiteren Flashcards ${rubrik ? `in der Rubrik ${rubrik}` : stapel ? `in dem Stapel ${stapel}` : `mit dem keyword ${keyword}`}`, {
         icon: '❕'
-        });
+      });
     }
   }
 
@@ -60,9 +62,7 @@ export default function Learn({ rubrik, stapel, keyword }) {
     });
   }
 
-  function teilen() {
-    throw new Error("Not implemented"); //TODO: 
-  }
+
 
   if (flashcardList.length === 0) {
     return <div>Keine Flashcards gefunden</div>
@@ -77,12 +77,13 @@ export default function Learn({ rubrik, stapel, keyword }) {
         lernStatus={flashcardList[flashcardIndex].lernStatus}
       />
       <div>
-        <button className='myInput' onClick={() => {setLernstatus(-1)}}>Kann's nicht</button>
+        <button className='myInput' onClick={() => { setLernstatus(-1) }}>Kann's nicht</button>
         <button className='myInput' onClick={nextFlashcard}>Überspringen</button>
-        <button className='myInput' onClick={() => {setLernstatus(1)}}>Hab's drauf</button>
+        <button className='myInput' onClick={() => { setLernstatus(1) }}>Hab's drauf</button>
         <br />
         {/* nicht sicher bei folgenden funktionen */}
-        <button className='myInput' onClick={teilen}>Teilen</button>
+        <button className='myInput' onClick={() => setRenderTeilenUI(!renderTeilenUI)}>Teilen</button>
+        {renderTeilenUI && <Share flashcardId={flashcardList[flashcardIndex]._id} setRenderTeilenUI={setRenderTeilenUI} />}
       </div>
     </div>
   )
