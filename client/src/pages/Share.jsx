@@ -12,7 +12,7 @@ export default function Share() {
         const shareId = window.location.pathname.split('/')[2];
         axios.get('http://localhost:3001/share', {
             params: {
-                shareId: shareId
+                shareId
             }
         }).then(response => {
             setFlashcardData(response.data);

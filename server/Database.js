@@ -89,8 +89,29 @@ async function addFlashcard(begriff, erklärung, keyword_array, kommentar_array,
     });
 }
 
+async function getFlashcard(id) {
+    return db.collection('flashcards').findOne({
+        _id: ObjectId(id)
+    });
+}
+
 async function getFlashcards(query) {
     return db.collection('flashcards').find(query).toArray();
+}
+
+async function getStapelFlashcards(stapelId) {
+    return db.collection('flashcards').find({
+        stapelID: ObjectId(stapelId)
+    }).toArray();
+}
+
+async function getAccountFlashcards() {
+    //TODO:
+    throw new Error('Not implemented');
+    // aggregation required
+    return db.collection('flashcards').find({
+        ownerId: ObjectId(accountId)
+    }).toArray();
 }
 
 async function getAllRubriken(accountID) {
@@ -102,13 +123,6 @@ async function getAllRubriken(accountID) {
 async function getAllStapel(rubrikId) {
     return db.collection('stapel').find({
         rubrikId: ObjectId(rubrikId)
-    }).toArray();
-}
-
-// TODO: better naming
-async function getAllFlashcards(stapelId) {
-    return db.collection('flashcards').find({
-        stapelID: ObjectId(stapelId)
     }).toArray();
 }
 
@@ -205,6 +219,9 @@ async function getStats(accountID) {
             }
         ]).toArray().then(result => {
             // 0 = noch zu lernen, 1 = hab's drauf, -1 = kann's nicht
+            //FIXME: dashboard bug wenn db leer
+            console.log(result);
+            console.log(result.find(x => x._id === 0).count | 0);
             const stats = {
                 "noch zu lernen": result.find(x => x._id === 0).count,
                 "hab's drauf": result.find(x => x._id === 1).count,
@@ -259,8 +276,9 @@ module.exports = {
     getAllStapel,
     getAllKeywords,
 
+    getFlashcard,
     getFlashcards,
-    getAllFlashcards,
+    getStapelFlashcards,
 
     updateLernstatus,
     getStats,

@@ -81,6 +81,7 @@ router.post('/create', async (req, res) => {
   }
 });
 
+// TODO: update this, flashcard haben keine rubrik
 router.get('/getFlashCards', async (req, res) => {
   const { rubrik, stapel, keyword } = req.query;
   var query = {};
@@ -266,18 +267,18 @@ router.post('/share', async (req, res) => {
 });
 
 router.get('/share', async (req, res) => {
-  const { id } = req.query;
+  const { shareId } = req.query;
   try {
-    const share = await database.getShare(id);
+    const share = await database.getShare(shareId);
     const expires = new Date(share.expires);
     const now = new Date();
     if (now >= expires) {
-      await database.deleteShare(id);
+      await database.deleteShare(shareId);
       res.json({
         message: "Share expired!"
       });
     } else {
-      const flashcard = await database.getFlashcard(id);
+      const flashcard = await database.getFlashcard(share.flashcardId);
       res.json(flashcard);
     }
   } catch (error) {
