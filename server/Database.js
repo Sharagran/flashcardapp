@@ -225,13 +225,10 @@ async function getStats(accountID) {
             }
         ]).toArray().then(result => {
             // 0 = noch zu lernen, 1 = hab's drauf, -1 = kann's nicht
-            //FIXME: dashboard bug wenn db leer
-            console.log(result);
-            console.log(result.find(x => x._id === 0).count | 0);
             const stats = {
-                "noch zu lernen": result.find(x => x._id === 0).count,
-                "hab's drauf": result.find(x => x._id === 1).count,
-                "kann's nicht": result.find(x => x._id === -1).count
+                "noch zu lernen": result.find(x => x._id === 0)?.count ||0,
+                "hab's drauf": result.find(x => x._id === 1)?.count || 0,
+                "kann's nicht": result.find(x => x._id === -1)?.count || 0
             };
             resolve(stats);
         }).catch(reject);
