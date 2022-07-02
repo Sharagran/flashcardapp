@@ -110,6 +110,19 @@ router.get('/getFlashCards', async (req, res) => {
 
 });
 
+router.get('/getAllFlashCards', async (req, res) => {
+  try {
+    const flashcards = await database.getAccountFlashcards(req.account.id);
+    res.json(flashcards);
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      error: error.message
+    });
+  }
+
+});
+
 router.get('/getRubriken', async (req, res) => {
   try {
     const rubriken = await database.getAllRubriken(req.account.id);

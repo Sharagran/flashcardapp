@@ -41,7 +41,7 @@ export default function View() {
 
     async function getFlashcards() {
         return new Promise((resolve, reject) => {
-            axios.get('http://localhost:3001/getFlashcards').then(res => {
+            axios.get('http://localhost:3001/getAllFlashCards').then(res => {
                 resolve(res.data);
             }).catch(err => {
                 reject(err.response.data.error);

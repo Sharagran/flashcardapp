@@ -111,13 +111,36 @@ async function getStapelFlashcards(stapelId) {
     }).toArray();
 }
 
-async function getAccountFlashcards() {
-    //TODO:
-    throw new Error('Not implemented');
-    // aggregation required
-    return db.collection('flashcards').find({
-        ownerId: ObjectId(accountId)
-    }).toArray();
+async function getAccountFlashcards(accountId) {
+    return db.collection('flashcards').aggregate([
+        {
+          '$lookup': {
+            'from': 'stapel', 
+            'localField': 'stapelID', 
+            'foreignField': '_id', 
+            'as': 'stapel'
+          }
+        }, {
+          '$unwind': {
+            'path': '$stapel'
+          }
+        }, {
+          '$lookup': {
+            'from': 'rubrik', 
+            'localField': 'stapel.rubrikId', 
+            'foreignField': '_id', 
+            'as': 'rubrik'
+          }
+        }, {
+          '$unwind': {
+            'path': '$rubrik'
+          }
+        }, {
+          '$match': {
+            'rubrik.ownerId': accountId
+          }
+        }
+      ]).toArray();
 }
 
 async function getAllRubriken(accountID) {
@@ -279,6 +302,7 @@ module.exports = {
     getAllRubriken,
     getAllStapel,
     getAllKeywords,
+    getAccountFlashcards,
 
     getFlashcard,
     getFlashcards,
