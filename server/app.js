@@ -13,9 +13,8 @@ app.use(cors());
 app.use(fileUpload());
 
 
-//FIXME: dbug only
 app.use((req, res, next) => {
-    // log request
+    // log all request
     console.log(`${req.method} ${req.originalUrl}`);
     next();
 });

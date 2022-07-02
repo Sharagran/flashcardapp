@@ -6,7 +6,6 @@ const nodemailer = require("nodemailer");
 const fs = require('fs');
 
 
-//TODO: fix error codes
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -98,7 +97,7 @@ router.get('/getFlashCards', async (req, res) => {
   try {
     console.log("getFlashCards");
     console.log(query);
-    query = {}; //FIXME: debug only
+    query = {}; //FIXME: debug only, akutell filter die view page noch nicht nach usern
     const flashcards = await database.getFlashcards(query);
     console.log(flashcards);
     res.json(flashcards);

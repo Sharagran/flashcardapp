@@ -18,7 +18,6 @@ import Navbar from './components/Navbar';
 function App() {
   const { token, setToken } = useToken();
 
-  // TODO: conditional rendering
   var content = <BrowserRouter>
     <Navbar />
     <h1>Flashcard app</h1>

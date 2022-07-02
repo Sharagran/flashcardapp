@@ -13,7 +13,7 @@ function authenticate(req, res, next) {
             if (err) {
                 if (err.name == 'TokenExpiredError') {
                     console.log("Token expired");
-                    return next(); //TODO: redirect to login page (login expired)
+                    return next();
                 } else {
                     console.error(err.stack);
                     return res.sendStatus(403);
@@ -25,7 +25,6 @@ function authenticate(req, res, next) {
         });
     } else {
         console.log('No token specified');
-        //TODO: Send user to login page?
         next();
     }
 }

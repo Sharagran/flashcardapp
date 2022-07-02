@@ -35,7 +35,7 @@ function compare_hash(password, hashFromDB) {
 function sign(id) {
     try {
         const payload = { id: id };
-        const token = jwt.sign(payload, SECRET); //TODO: expiresIn (implement 30min login timeout)
+        const token = jwt.sign(payload, SECRET);
         return token;
     } catch (error) {
         console.log(error);
