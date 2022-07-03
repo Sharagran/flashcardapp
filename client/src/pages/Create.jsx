@@ -95,6 +95,11 @@ export default function Create() {
         }).catch(toast.error);
     }
 
+    function stapelChanged(e) {
+        const stapel = stapelList.find(stapel => stapel._id === e.target.value)
+        setStapel(stapel);
+    }
+
     function clearInputs() {
         const begriff = document.querySelector('.begriff');
         const erklärung = document.querySelector('.erklärung');
@@ -140,7 +145,7 @@ export default function Create() {
                     </div>
                     <div className="myInputWrapper">
                         <label>Stapel {rubrik.name}:</label>
-                        <select className='myInput' value={stapel._id} onChange={(e) => setStapel(e.target.value)}>
+                        <select className='myInput' value={stapel._id} onChange={stapelChanged}>
                             {stapelList.map(stapel => <option key={stapel._id} value={stapel._id}>{stapel.name}</option>)}
                         </select>
                     </div>

@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 export default function View() {
     const [rubrikList, setRubrikList] = useState([]);
-    const [stapelList, setStapelList] = useState([]); //TODO: stapel auslagern
+    const [stapelList, setStapelList] = useState([]); //TODO:
     const [keywordList, setKeywordList] = useState([]);
     const [fileList, setFileList] = useState([]);
     const [flashcards, setFlashcards] = useState([]);
