@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 
 import Flashcard from '../components/Flashcard'
 import Share from '../components/Share';
-import '../styles/Learn.css';
 import {toast} from 'react-hot-toast';
 
 

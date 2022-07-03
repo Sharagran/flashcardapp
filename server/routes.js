@@ -81,6 +81,24 @@ router.post('/create', async (req, res) => {
   }
 });
 
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 // TODO: update this, flashcard haben keine rubrik
 router.get('/getFlashCards', async (req, res) => {
   const { rubrik, stapel, keyword } = req.query;
@@ -98,7 +116,8 @@ router.get('/getFlashCards', async (req, res) => {
     console.log("getFlashCards");
     console.log(query);
     query = {}; //FIXME: debug only, akutell filter die view page noch nicht nach usern
-    const flashcards = await database.getFlashcards(query);
+    var flashcards = await database.getFlashcards(query);
+    shuffle(flashcards);
     console.log(flashcards);
     res.json(flashcards);
   } catch (error) {
