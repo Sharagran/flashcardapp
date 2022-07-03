@@ -99,7 +99,6 @@ function shuffle(array) {
   return array;
 }
 
-// TODO: update this, flashcard haben keine rubrik
 router.get('/getFlashCards', async (req, res) => {
   const { rubrik, stapel, keyword } = req.query;
   var query = {};
@@ -115,7 +114,7 @@ router.get('/getFlashCards', async (req, res) => {
   try {
     console.log("getFlashCards");
     console.log(query);
-    query = {}; //FIXME: debug only, akutell filter die view page noch nicht nach usern
+    query = {}; //TODO: filter funktion
     var flashcards = await database.getFlashcards(query);
     shuffle(flashcards);
     console.log(flashcards);
@@ -238,12 +237,12 @@ router.get('/getStats', async (req, res) => {
 });
 
 router.post('/upload', async (req, res) => {
-  //create user folder if not exists
+  // erstellt den Nutzerordner falls er noch nicht existiert
   fs.mkdirSync(`./uploads/${req.account.id}`, { recursive: true });
 
   const { files } = req.files;
 
-  //check if array
+  // Mehrere Dateien hochladen
   if (Array.isArray(files)) {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -259,6 +258,7 @@ router.post('/upload', async (req, res) => {
       });
     }
   } else {
+    // Eine Datei hochladen
     const file = files;
     console.log(file);
     const path = `${__dirname}/uploads/${req.account.id}/${file.name}`;
@@ -333,11 +333,13 @@ router.get('/share', async (req, res) => {
     const expires = new Date(share.expires);
     const now = new Date();
     if (now >= expires) {
+      // Share ist abgelaufen
       await database.deleteShare(shareId);
       res.json({
         message: "Share expired!"
       });
     } else {
+      // Share ist noch aktiv
       const flashcard = await database.getFlashcard(share.flashcardId);
       res.json(flashcard);
     }
@@ -362,16 +364,19 @@ router.post('/confirmShareDownload', async (req, res) => {
       const shares = await database.getShares(flashcardId);
 
       if (shares.length === 0) {
+        // Flashcard wurde nur noch mit einem Nutzer geteilt
         await database.deleteFlashcard(flashcardId);
         res.json({
           message: "Flashcard deleted!"
         });
       } else {
+        // Flashcard wurde noch mit mehreren Nutzern geteilt
         res.json({
           message: "Flashcard not deleted!"
         });
       }
     } else {
+      // Nach download löschen checkbox wurde beim Teilen nicht angehakt
       res.json({
         message: "Share & Flashcard not deleted!"
       });
@@ -386,7 +391,7 @@ router.post('/confirmShareDownload', async (req, res) => {
 
 router.get('/getFiles', async (req, res) => {
   const accountId = req.account.id;
-  // check if directory exists
+  // Guckt ob der Nutzer einen Ordner hat
   if (fs.existsSync(`./uploads/${accountId}`)) {
     const files = fs.readdirSync(`./uploads/${accountId}`);
     console.log(files);

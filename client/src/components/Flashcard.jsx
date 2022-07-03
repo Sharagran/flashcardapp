@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 
 import '../styles/Flashcard.css'
 
-// lernstatus: 0 = noch zu lernen, 1 = hab's drauf, -1 = kann's nicht
 export default function Flashcard({begriff, erklärung, editable = false}) {
   const [flipped, setFlipped] = useState(false);
 
   return (
     <div className={`flashcard`}
       onClick={(e) => {
+        // Nur umdrehen beim click auf den Text wenn der Text nicht editierbar ist
         if (e.target.nodeName === 'DIV' | !editable) {
           setFlipped(!flipped);
         }

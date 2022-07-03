@@ -21,9 +21,7 @@ export default function Learn({ rubrik, stapel, keyword }) {
     });
   }, [])
 
-  //TODO: change query & serverside route function
   async function getFlashcards() {
-    //TODO: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
     return new Promise((resolve, reject) => {
       axios.get(`http://localhost:3001/getFlashCards`, {
         params: {
@@ -80,7 +78,6 @@ export default function Learn({ rubrik, stapel, keyword }) {
         <button className='myInput' onClick={nextFlashcard}>Überspringen</button>
         <button className='myInput' onClick={() => { setLernstatus(1) }}>Hab's drauf</button>
         <br />
-        {/* nicht sicher bei folgenden funktionen */}
         <button className='myInput' onClick={() => setRenderTeilenUI(!renderTeilenUI)}>Teilen</button>
         {renderTeilenUI && <Share flashcardId={flashcardList[flashcardIndex]._id} setRenderTeilenUI={setRenderTeilenUI} />}
       </div>

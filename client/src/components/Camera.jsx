@@ -11,6 +11,7 @@ export default function Camera({ setFiles }) {
     function handleTakePhoto(dataUri) {
         setDataUri(dataUri);
 
+        // Datum als Dateiname
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();
@@ -21,10 +22,10 @@ export default function Camera({ setFiles }) {
         for (var i = 0; i < binary.length; i++) {
             array.push(binary.charCodeAt(i));
         }
-
+        // Photo blob erstellen
         var photo = new Blob([new Uint8Array(array)], { type: 'image/png' });
         console.log(photo);
-
+        // Photo blob als
         setFiles([{
             blob: photo,
             name: dateTime + '.png'

@@ -14,12 +14,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     getStats().then(data => {
-      // summ of object values
+      // Summe aller Flashcards
       let sum = 0;
       for (let key in data) {
         sum += data[key];
       }
-      // calculate percentages
+      // Prozentualer Anteil der Werte ausrechnen
       var parsedData = [];
       for (let key in data) {
         parsedData.push({

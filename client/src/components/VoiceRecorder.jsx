@@ -27,11 +27,12 @@ export default function VoiceRecorder({ setFiles, upload }) {
     }
 
     function prepareUpload(file) {
+        // Datum als Dateiname
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();
         var dateTime = date + "@" + time;
-
+        
         setFiles([{
             blob: file,
             name: dateTime + '.webm'

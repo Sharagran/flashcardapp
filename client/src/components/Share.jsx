@@ -7,6 +7,7 @@ export default function Share({ flashcardId, setRenderTeilenUI }) {
     const [expires, setExpires] = useState(getMinDate());
     const [deleteAfter, setDeleteAfter] = useState(false);
 
+    // Funktion um das akutelle Datum zu erhalten welches das Mindestdatum für expires ist
     function getMinDate() {
         let date = new Date()
         date.setDate(date.getDate() + 1);
@@ -23,8 +24,10 @@ export default function Share({ flashcardId, setRenderTeilenUI }) {
             deleteAfter: deleteAfter
         }).then(res => {
             toast.success(res.data.message);
+            // Erstellt den Link zur Flashcard
             const host = window.location.host;
             const shareLink = `http://${host}/share/${res.data.shareId}`;
+            // Kopiert den Link in die Zwischenablage
             navigator.clipboard.writeText(shareLink).then(() => {
                 toast.success('Link wurde in die Zwischenablage kopiert');
             }).catch(err => {
@@ -32,7 +35,7 @@ export default function Share({ flashcardId, setRenderTeilenUI }) {
                 console.log(err);
                 console.log(shareLink);
             });
-
+            // Nach dem Teilen wird die UI zurückgesetzt
             setRenderTeilenUI(false);
         }).catch(err => {
             toast.error(err.response.data.error);

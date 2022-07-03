@@ -98,7 +98,7 @@ export default function Share() {
             setFlashcardData(response.data);
         }).catch(error => { // share not found
             console.log(error.response.data.error);
-            // go to start page
+            // zurück zur Startseite
             window.location.href = '/';
         });
     }, []);

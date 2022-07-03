@@ -28,7 +28,7 @@ function App() {
 
       {/* learn all cards */}
       <Route path="/learn" element={<Learn />}></Route>
-      {/* TODO: set filter from URL paramaets */}
+      {/* TODO: ausgewählte Karte lernen */}
       <Route path="/learn/:id" element={<Dashboard />}></Route>
 
 
@@ -37,8 +37,6 @@ function App() {
     </Routes>
   </BrowserRouter>;
 
-  // console.log(window.location.pathname);
-
   // Seite ohne Authentifizierung
   if (window.location.pathname.startsWith('/share/')) {
     content = <Share />;
@@ -46,6 +44,7 @@ function App() {
     if (token) {
       axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` };
     } else {
+      // Wenn der Nutzer keinen Token hat, dann wird er auf die Login-Seite weitergeleitet
       content = <Login setToken={setToken} />;
     }
   }

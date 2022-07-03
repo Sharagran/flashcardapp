@@ -6,9 +6,11 @@ module.exports = authenticate;
 function authenticate(req, res, next) {
     const authHeader = req.headers.authorization;
 
+    // Wenn der Nutzer einen Token hat
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
+        // Token validieren
         authenticator.verify(token, (err, decoded) => {
             if (err) {
                 if (err.name == 'TokenExpiredError') {
@@ -20,6 +22,7 @@ function authenticate(req, res, next) {
                 }
             }
 
+            // Nutzerdaten aus dem Token holen
             req.account = decoded;
             next();
         });
