@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "62c1a2777be63bed2c4df703"
+  },
+  "name": "Informatik",
+  "ownerId": "89235b5a-c4b1-4762-a175-580b67289de0"
+},{
+  "_id": {
+    "$oid": "62c1a3ee7be63bed2c4df707"
+  },
+  "name": "Biologie",
+  "ownerId": "89235b5a-c4b1-4762-a175-580b67289de0"
+}]

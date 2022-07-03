@@ -1,0 +1,69 @@
+[{
+  "_id": {
+    "$oid": "62c1a4457be63bed2c4df709"
+  },
+  "begriff": "Fitness",
+  "erklärung": "Überleben des stärksten",
+  "keyword_array": [],
+  "kommentar_array": [],
+  "stapelID": {
+    "$oid": "62c1a4017be63bed2c4df708"
+  },
+  "lernstatus": 1
+},{
+  "_id": {
+    "$oid": "62c1a4817be63bed2c4df70a"
+  },
+  "begriff": "DBMS",
+  "erklärung": "Database Management System",
+  "keyword_array": [
+    "server"
+  ],
+  "kommentar_array": [],
+  "stapelID": {
+    "$oid": "62c1a2907be63bed2c4df704"
+  },
+  "lernstatus": -1
+},{
+  "_id": {
+    "$oid": "62c1ae6ec661887ee8ab40e5"
+  },
+  "begriff": "php",
+  "erklärung": "Skriptsprache mit einer an C und Perl angelehnten Syntax",
+  "keyword_array": [
+    "server"
+  ],
+  "kommentar_array": [],
+  "stapelID": {
+    "$oid": "62c1a3c77be63bed2c4df706"
+  },
+  "lernstatus": 0
+},{
+  "_id": {
+    "$oid": "62c1ae91c661887ee8ab40e6"
+  },
+  "begriff": "HTML",
+  "erklärung": "HyperText Markup Language",
+  "keyword_array": [
+    "client"
+  ],
+  "kommentar_array": [],
+  "stapelID": {
+    "$oid": "62c1a3c77be63bed2c4df706"
+  },
+  "lernstatus": 0
+},{
+  "_id": {
+    "$oid": "62c1af00c661887ee8ab40e7"
+  },
+  "begriff": "Query",
+  "erklärung": "Datenbankabfrage",
+  "keyword_array": [
+    "server"
+  ],
+  "kommentar_array": [],
+  "stapelID": {
+    "$oid": "62c1a2907be63bed2c4df704"
+  },
+  "lernstatus": 0
+}]

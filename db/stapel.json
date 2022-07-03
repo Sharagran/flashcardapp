@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "62c1a2907be63bed2c4df704"
+  },
+  "name": "Datenbanken",
+  "rubrikId": {
+    "$oid": "62c1a2777be63bed2c4df703"
+  }
+},{
+  "_id": {
+    "$oid": "62c1a3c77be63bed2c4df706"
+  },
+  "name": "Webtechnologien",
+  "rubrikId": {
+    "$oid": "62c1a2777be63bed2c4df703"
+  }
+},{
+  "_id": {
+    "$oid": "62c1a4017be63bed2c4df708"
+  },
+  "name": "Evolution",
+  "rubrikId": {
+    "$oid": "62c1a3ee7be63bed2c4df707"
+  }
+}]

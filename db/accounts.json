@@ -1,0 +1,10 @@
+[{
+  "_id": {
+    "$oid": "62c1a1cd7be63bed2c4df702"
+  },
+  "id": "89235b5a-c4b1-4762-a175-580b67289de0",
+  "email": "tomelitsch@googlemail.com",
+  "username": "kevin",
+  "password": "$2b$10$mf7s/qpKRKSH5D7jt/tBpusQQyx.5IGyIvQSP8dKoqOieDLgmz16S",
+  "avatar": null
+}]
