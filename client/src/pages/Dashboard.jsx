@@ -23,7 +23,7 @@ export default function Dashboard() {
       var parsedData = [];
       for (let key in data) {
         parsedData.push({
-          y: (data[key] / sum) * 100,
+          y: Math.round((data[key] / sum) * 100),
           label: key
         });
       }
