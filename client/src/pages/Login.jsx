@@ -96,38 +96,50 @@ export default function Login({ setToken }) {
   const login_form = (
     <div>
       <form action="" method="post" onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
-        <label htmlFor="password">Password:</label>
-        <input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} />
-        <input type="submit" value="Login" />
+        <div className='myInputWrapper'>
+          <label htmlFor="email">Email:</label>
+          <input className='myInput' type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
+        </div>
+        <div className='myInputWrapper'>
+          <label htmlFor="password">Password:</label>
+          <input className='myInput' type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} />
+        </div >
+        <input className='myInput' type="submit" value="Login" />
       </form>
-      <button onClick={e => setLoginOption(1)}>Registrieren</button>
-      <button onClick={e => setLoginOption(2)}>Reset Password</button>
+      <button className='myInput' onClick={e => setLoginOption(1)}>Registrieren</button>
+      <button className='myInput' onClick={e => setLoginOption(2)}>Reset Password</button>
     </div>
   );
   const register_form = (
     <div>
       <form action="" method="post" onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
-        <label htmlFor="username">Username:</label>
-        <input type="text" name="username" id="username" onChange={e => setUsername(e.target.value)} />
-        <label htmlFor="password">Password:</label>
-        <input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} />
-        <input type="submit" value="Register" />
+        <div className='myInputWrapper'>
+          <label className='myInput' htmlFor="email">Email:</label>
+          <input className='myInput' type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
+        </div>
+        <div className='myInputWrapper'>
+          <label className='myInput' htmlFor="username">Username:</label>
+          <input className='myInput' type="text" name="username" id="username" onChange={e => setUsername(e.target.value)} />
+        </div>
+        <div className='myInputWrapper'>
+          <label className='myInput' htmlFor="password">Password:</label>
+          <input className='myInput' type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} />
+        </div>
+        <input className='myInput' type="submit" value="Register" />
       </form>
-      <button onClick={e => setLoginOption(0)}>zurück zum Login</button>
+      <button className='myInput' onClick={e => setLoginOption(0)}>zurück zum Login</button>
     </div>
   );
   const reset_password_form = (
     <div>
       <form action="" method="post" onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
-        <input type="submit" value="Reset Password" />
+        <div className='myInputWrapper'>
+          <label className='myInput' htmlFor="email">Email:</label>
+          <input className='myInput' type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} />
+        </div>
+        <input className='myInput' type="submit" value="Reset Password" />
       </form>
-      <button onClick={e => setLoginOption(0)}>zurück zum Login</button>
+      <button className='myInput' onClick={e => setLoginOption(0)}>zurück zum Login</button>
     </div>
   );
 
